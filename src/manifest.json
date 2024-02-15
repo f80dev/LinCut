@@ -1,0 +1,10 @@
+{
+  "name": "LinCut",
+  "version": "1.0",
+  "description": "Raccourcir des urls",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["activeTab", "http://localhost:5000/*","https://t.f80.fr/*","tabs"]
+}
