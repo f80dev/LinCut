@@ -1,0 +1,29 @@
+
+  <mat-icon class="system_button" (click)="go_back()">left</mat-icon>
+
+  <h6>Préférences</h6>
+  <mat-form-field>
+      <mat-label>Une adresse de wallet</mat-label>
+      <input matInput [(ngModel)]="settings.address"/>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <mat-label>La référence d'un token</mat-label>
+      <input matInput [(ngModel)]="settings.token"/>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <mat-label>Une collection</mat-label>
+      <input matInput [(ngModel)]="settings.collection"/>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+      <mat-label>Une quantité</mat-label>
+      <input matInput [(ngModel)]="settings.quantity" type="number"/>
+    </mat-form-field>
+    <br>
+
+

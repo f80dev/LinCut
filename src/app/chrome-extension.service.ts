@@ -8,25 +8,24 @@ import {Subject} from "rxjs";
 })
 export class ChromeExtensionService implements OnInit,OnDestroy {
 
-  evt: Subject<string> = new Subject<string>();
 
   constructor() {
   }
 
 
-  get_url(simulation="") : Promise<string>{
-    return new Promise(async (resolve,reject) => {
-      try{
-        let tabs=await chrome.tabs.query({active: true, currentWindow: true})
-        if(tabs.length>0 && tabs[0] && tabs[0].url){
+  get_url(simulation = ""): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let tabs = await chrome.tabs.query({active: true, currentWindow: true})
+        if (tabs.length > 0 && tabs[0] && tabs[0].url) {
           resolve(tabs[0].url)
-        }else {
+        } else {
           reject()
         }
       } catch (e) {
-        if(simulation.length>0){
+        if (simulation.length > 0) {
           resolve(simulation)
-        }else{
+        } else {
           reject()
         }
 
@@ -36,24 +35,34 @@ export class ChromeExtensionService implements OnInit,OnDestroy {
 
 
   ngOnInit(): void {
-    document.addEventListener('DOMContentLoaded', ()=> {
-      this.evt.next("loaded")
-    })
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    //   setTimeout(()=>{
-    //     chrome.tabs.query({active: true, currentWindow: true}, async function(tabs) {
-    //       // Access the active tab and do something based on the button click
-    //       let rep = await sendUrlToServer(tabs[0].url);
-    //       document.getElementById("result").innerText=domain+rep
-    //       document.getElementById("result_link").href=domain+rep
-    //     });
-    //   },100)
-    // });
   }
 
   ngOnDestroy(): void {
   }
 
 
+  get_local(key: string) {
+    return new Promise<any>((resolve) => {
+      if(chrome.storage) {
+        chrome.storage.local.get(key, (item: any) => {
+          resolve(item)
+        })
+      }else{
+        resolve(localStorage.getItem(key))
+      }
+    })
+  }
+
+
+  set_local(key:string,value:string){
+    if(chrome.storage){
+      chrome.storage.local.set({ key: value }, ()=>{
+        //  Data's been saved boys and girls, go on home
+      });
+    }else{
+      localStorage.setItem(key,value)
+    }
+
+  }
 }

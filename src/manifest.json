@@ -6,5 +6,10 @@
   "action": {
     "default_popup": "index.html"
   },
-  "permissions": ["activeTab", "http://localhost:5000/*","https://t.f80.fr/*","tabs"]
+  "permissions": [
+    "activeTab","storage",
+    "http://localhost:5000/*",
+    "https://t.f80.fr/*",
+    "tabs"
+  ]
 }
