@@ -1,4 +1,9 @@
 mat-form-field {
   width:90%;
   margin:5%;
+  font-size: medium;
+}
+
+mat-label {
+  font-size: small;
 }

@@ -23,12 +23,7 @@ import {Router, RouterModule} from "@angular/router";
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit {
-  settings={
-    address: "",
-    token:"",
-    collection:"",
-    quantity:1
-  }
+  settings= {address: "", token:"", collection:"", quantity:1}
 
 
   constructor(public chromeExt:ChromeExtensionService,public router:Router) {
@@ -36,7 +31,9 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.settings=JSON.parse(await this.chromeExt.get_local("settings"))
+    let obj=await this.chromeExt.get_local("settings")
+    if(obj=="null")obj={address: "", token:"", collection:"", quantity:1}
+    this.settings=JSON.parse(obj)
   }
 
 
