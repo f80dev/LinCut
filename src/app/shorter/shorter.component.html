@@ -1,23 +1,30 @@
 <div *ngIf="short_url==''" style="margin-top: 20px;">
+  <h1>xGate</h1>
+  <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
+  <br><br>
   <mat-form-field>
-    <mat-label>Lien à traiter</mat-label>
+    <mat-label>L'adresse internet de destination</mat-label>
     <input matInput [(ngModel)]="url"/>
   </mat-form-field>
-
+  <br><br>
   <mat-form-field>
-    <mat-label>Service</mat-label>
-    <mat-select required value="redirect">
-      <mat-option *ngFor="let service of services" [value]="service.url">{{service.label}}</mat-option>
+    <mat-label>Conditions d'accès</mat-label>
+    <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus>
+      <mat-option *ngFor="let service of services" [value]="service.url">{{service.service}}</mat-option>
     </mat-select>
+    <mat-hint>Traitement avant la redirection</mat-hint>
   </mat-form-field>
   <br>
 
-  <button mat-raised-button (click)="short()" color="primary">
+  <button mat-raised-button (click)="short()" color="primary"
+          *ngIf="url!=''"
+          style="margin-top: 50%">
     Raccourcir
   </button>
 </div>
 
 <mat-icon (click)="open_settings()" class="system_button">settings</mat-icon>
+
 
 <div *ngIf="short_url!=''">
   <div class="mat-subtitle-1" style="display: inline;">
@@ -32,6 +39,11 @@
       <button mat-raised-button (click)="share()">
         Partager
       </button>
+      <button mat-raised-button (click)="clear()">
+        Nouveau
+      </button>
     </div>
   </div>
 </div>
+
+

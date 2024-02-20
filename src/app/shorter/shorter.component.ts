@@ -36,6 +36,7 @@ export class ShorterComponent implements OnInit {
   url = "";
   short_url: string=""
   services:any[] = []
+  service_selected=""
 
   constructor(public chromeExt:ChromeExtensionService,
               public toast:MatSnackBar,
@@ -54,6 +55,7 @@ export class ShorterComponent implements OnInit {
     this.api.get(environment.domain+"/api/services/").subscribe({
       next:(services:any)=>{
         this.services=services
+        this.service_selected=services[0].url
       }
     })
   }
@@ -69,16 +71,16 @@ export class ShorterComponent implements OnInit {
   }
 
   short() {
-    this.url="Lecture de l'adresse"
+    if(!this.url.startsWith("http"))this.url="https://"+this.url
     let headers:HttpHeaders=new HttpHeaders({
       "Content-Type":"application/json"
     })
-    this.api.post(environment.domain+"api/add/",{url:this.url},{responseType:"text"}).subscribe({
-      next:(r:string)=>{
-        this.short_url=environment.domain+r
+    this.api.post(environment.domain+"/api/add/",{url:this.url},{responseType:"json"}).subscribe({
+      next:(r:any)=>{
+        this.short_url=environment.domain+"/"+r.cid
       },
       error:(err)=>{
-        this.toast.open("Problème de traitement de l'url")
+        this.toast.open("Problème de traitement de l'url, veuillez recommencer")
       }
     })
   }
@@ -88,5 +90,8 @@ export class ShorterComponent implements OnInit {
   }
 
 
-
+  clear() {
+    this.short_url=""
+    this.url=""
+  }
 }

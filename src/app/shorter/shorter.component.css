@@ -6,3 +6,7 @@ button {
   margin: 10px;
   width: 100px;
 }
+
+mat-hint {
+  opacity: 0.8;
+}
