@@ -6,6 +6,10 @@ LinCut repose sur le tutoriel :
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.0.
 
+## Description
+
+LinCut est un raccourcisseur d'URL permettant d'introduire des traitements supplémentaires avant la redirection : controle de NFT, facturation par cryptomonaire, airdrop
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

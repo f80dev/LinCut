@@ -12,7 +12,6 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {Router, RouterOutlet} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/env";
-import services = chrome.privacy.services;
 
 @Component({
   selector: 'app-shorter',
