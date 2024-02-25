@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, RouterModule, RouterOutlet} from '@angular/router';
+import {environment} from "../environments/env";
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,10 @@ import {ActivatedRoute, RouterModule, RouterOutlet} from '@angular/router';
 })
 export class AppComponent implements OnInit {
   title = 'LinCut';
+  height: string ="450px";
 
 
   ngOnInit(): void {
-
+    this.height=environment.height
   }
 }
