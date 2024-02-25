@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/lin-cut",
+            "outputPath": "dist/linkut",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -33,7 +33,10 @@
               "src/icon_@0.5x.png",
               "src/icon_@0.25x.png",
               "src/icon_mdpi.png",
-              "src/manifest.json"
+              "src/manifest.json",
+              "src/background.js",
+              "src/404.html",
+              "src/CNAME"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
@@ -63,10 +66,31 @@
               ],
               "outputHashing": "all"
             },
+            "mobile": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/env.ts",
+                  "with": "src/environments/env.mobile.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "1500kb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
-              "optimization": false,
+              "optimization": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": false
             }
           },
           "defaultConfiguration": "production"

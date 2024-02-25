@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RouterModule, RouterOutlet} from '@angular/router';
+import {ActivatedRoute, RouterModule, RouterOutlet} from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,6 +10,11 @@ import {RouterModule, RouterOutlet} from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'LinCut';
+
+
+  ngOnInit(): void {
+
+  }
 }

@@ -7,13 +7,17 @@
   "action": {
     "default_popup": "index.html"
   },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
   "icons": {
     "64": "icon_@0.25x.png",
     "128": "icon_@0.5x.png",
     "256": "icon_mdpi.png"
   },
   "permissions": [
-    "activeTab","storage",
+    "activeTab","storage","contextMenus",
     "http://localhost:5000/*",
     "https://t.f80.fr/*",
     "tabs"

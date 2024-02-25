@@ -5,7 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "mobile": "ng build --configuration=mobile && gh-pages -d dist/linkut/browser --repo https://github.com/f80dev/LinCut.git -f -t true -b gh-pages -m \\\"update from gh-pages\\\"\"",
+    "watch": "ng build --watch --configuration=development",
     "test": "ng test"
   },
   "private": true,

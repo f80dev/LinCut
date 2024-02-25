@@ -7,7 +7,7 @@
   },
   "files": [
     "src/main.ts",
-    "src/background.ts",
+    "src/background.js",
     "src/content-script.ts"
   ],
   "include": [

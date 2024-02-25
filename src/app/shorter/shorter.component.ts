@@ -9,7 +9,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChromeExtensionService} from "../chrome-extension.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {Router, RouterOutlet} from "@angular/router";
+import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/env";
 
@@ -39,20 +39,38 @@ export class ShorterComponent implements OnInit {
 
   constructor(public chromeExt:ChromeExtensionService,
               public toast:MatSnackBar,
+              public routes:ActivatedRoute,
               public router:Router,
               public api:HttpClient) {
 
   }
 
+
+
+
   async ngOnInit() {
-    try {
-      this.short_url=""
-      this.url = await this.chromeExt.get_url("https://lemonde.fr");
-    }catch (e) {
-      this.url=""
+    let cache_service:any={services:JSON.parse(localStorage.getItem("services") || "{}")}
+    if(environment.mobile){
+      this.url=this.routes.snapshot.queryParams["url"] || ""
+    } else {
+      cache_service=await chrome.storage.local.get(["services"])
+
+      let res:any=await chrome.storage.local.get(["url"])
+      this.url=res.url || ""
+      if(this.url=="")this.url = await this.chromeExt.get_url("https://lemonde.fr");
     }
+    this.services=cache_service["services"] || [{service:"redirection simple",url:""}]
+    this.service_selected=this.services[0].url
+
+    this.short_url=""
+
     this.api.get(environment.domain+"/api/services/").subscribe({
       next:(services:any)=>{
+        if(environment.mobile){
+          localStorage.setItem("services",services)
+        }else{
+          chrome.storage.local.set({services:services})
+        }
         this.services=services
         this.service_selected=services[0].url
       }
@@ -65,9 +83,11 @@ export class ShorterComponent implements OnInit {
     this.toast.open("Lien copié")
   }
 
+
   async share() {
     await navigator.share({url:this.short_url})
   }
+
 
   short() {
     if(!this.url.startsWith("http"))this.url="https://"+this.url
