@@ -1,5 +1,7 @@
 export const environment = {
-  domain:"https://api.f80.fr",
+  domain:"https://t.f80.fr",
   mobile:false,
-  height:"400px"
+  height:"500px",
+  width:"350px",
+  title:"linkut"
 }

@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --live-reload",
+    "start mobile": "ng serve --configuration mobile",
     "build": "ng build",
     "mobile": "ng build --configuration=mobile && gh-pages -d dist/linkut/browser --repo https://github.com/f80dev/LinCut.git -f -t true -b gh-pages -m \\\"update from gh-pages\\\"\"",
     "watch": "ng build --watch --configuration=development",
@@ -21,7 +22,7 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
-    "@angular/service-worker": "^17.2.1",
+    "@angular/service-worker": "^17.2.0",
     "@types/chrome": "^0.0.260",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

@@ -1,5 +1,7 @@
 export const environment = {
-  domain:"https://api.f80.fr",
+  domain:"https://t.f80.fr",
   mobile:true,
-  height:"100vh"
+  height:"92vh",
+  width:"98vw",
+  title:"The linKut App"
 }

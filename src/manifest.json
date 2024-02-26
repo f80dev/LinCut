@@ -18,8 +18,10 @@
   },
   "permissions": [
     "activeTab","storage","contextMenus",
-    "http://localhost:5000/*",
-    "https://t.f80.fr/*",
     "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost:5000/*",
+    "https://t.f80.fr/*"
   ]
 }

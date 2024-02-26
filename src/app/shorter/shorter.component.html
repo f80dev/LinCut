@@ -1,5 +1,5 @@
 <div *ngIf="short_url==''" style="margin-top: 20px;">
-  <h1>xGate</h1>
+  <h1>{{environment.title}}</h1>
   <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
   <br><br>
   <mat-form-field>
@@ -18,7 +18,7 @@
 
   <button mat-raised-button (click)="short()" color="primary"
           *ngIf="url!=''"
-          style="margin-top: 40%">
+          style="margin-top: 35%">
     Raccourcir
   </button>
 </div>
@@ -32,11 +32,11 @@
     <strong>{{short_url}}</strong>
     <br>
 
-    <div style="position:absolute;bottom:30px;width:100%;text-align: center;display:block;" >
+    <div style="position:absolute;bottom:50px;width:100%;text-align: center;display:block;" >
       <button mat-raised-button (click)="copy()">
         Copier
       </button>
-      <button mat-raised-button (click)="share()">
+      <button mat-raised-button (click)="share()" color="primary">
         Partager
       </button>
       <button mat-raised-button (click)="clear()">

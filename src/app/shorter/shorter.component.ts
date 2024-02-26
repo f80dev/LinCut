@@ -46,21 +46,32 @@ export class ShorterComponent implements OnInit {
   }
 
 
+  async load_services(){
+    const service_redirect={service:"redirection",url:""}
+    let cache_service:any[]=[service_redirect]
+    if(chrome && chrome.storage){
+      let rep=await chrome.storage.local.get(["services"])
+      if(rep){
+        cache_service=JSON.parse(rep[0])
+      }
+    } else {
+      cache_service=JSON.parse(localStorage.getItem("services") || "{}")
+    }
+
+    this.services=cache_service
+    this.service_selected=this.services[0].url
+  }
 
 
   async ngOnInit() {
-    let cache_service:any={services:JSON.parse(localStorage.getItem("services") || "{}")}
-    if(environment.mobile){
-      this.url=this.routes.snapshot.queryParams["url"] || ""
-    } else {
-      cache_service=await chrome.storage.local.get(["services"])
-
+    this.load_services()
+    if(chrome && chrome.storage){
       let res:any=await chrome.storage.local.get(["url"])
       this.url=res.url || ""
       if(this.url=="")this.url = await this.chromeExt.get_url("https://lemonde.fr");
+    }else{
+      this.url=this.routes.snapshot.queryParams["url"] || ""
     }
-    this.services=cache_service["services"] || [{service:"redirection simple",url:""}]
-    this.service_selected=this.services[0].url
 
     this.short_url=""
 
@@ -113,4 +124,6 @@ export class ShorterComponent implements OnInit {
     this.short_url=""
     this.url=""
   }
+
+  protected readonly environment = environment;
 }

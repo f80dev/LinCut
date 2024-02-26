@@ -14,9 +14,11 @@ import {environment} from "../environments/env";
 export class AppComponent implements OnInit {
   title = 'LinCut';
   height: string ="450px";
+  width: string="350px";
 
 
   ngOnInit(): void {
     this.height=environment.height
+    this.width=environment.width
   }
 }
