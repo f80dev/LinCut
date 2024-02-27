@@ -1,4 +1,4 @@
-import {environment} from "./environments/environment";
+import {environment} from "./environments/env"
 import {ActivatedRoute} from "@angular/router";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {_prompt} from "./app/prompt/prompt.component";

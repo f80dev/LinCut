@@ -4,5 +4,9 @@ export const environment = {
   mobile:true,
   height:"500px",
   width:"350px",
-  title:"linKut"
+  title:"linKut",
+  production:false,
+  appli:"linKut",
+  server:"https://api.f80.fr",
+  shorter_service:"http://127.0.0.1:80"
 }

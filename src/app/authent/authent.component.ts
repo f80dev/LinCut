@@ -4,7 +4,7 @@ import {NetworkService} from "../network.service";
 import {$$, eval_direct_url_xportal, isEmail, isLocal, now,  showError, showMessage} from "../../tools";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/env";
-import {Location, NgIf} from "@angular/common";
+import {Location, NgFor, NgIf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-social-login";
 import {Connexion, Operation} from "../../operation";
@@ -44,7 +44,7 @@ import {MatButton} from "@angular/material/button";
         GoogleSigninButtonModule,
         MatIcon,
         UploadFileComponent,
-        NgIf,
+        NgIf, NgFor,
         MatButton
     ],
   styleUrls: ['./authent.component.css']

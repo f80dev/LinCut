@@ -2,32 +2,20 @@
 <mat-icon class="system_button" (click)="go_back()">chevron_left</mat-icon>
 
 <h4>Préférences</h4>
-<p >
-  Certains services peuvent nécessiter:
+<p>
+  Certains services peuvent nécessiter
 </p>
 
-<mat-form-field>
-  <mat-label>Une adresse de wallet</mat-label>
-  <input matInput [(ngModel)]="settings.address"/>
-</mat-form-field>
-<br>
+<app-input title="Une adresse de wallet" value_type="text" [value]="settings.address" (valueChange)="settings.address=$event"></app-input><br>
 
-<mat-form-field>
-  <mat-label>La référence d'un token</mat-label>
-  <input matInput [(ngModel)]="settings.token"/>
-</mat-form-field>
-<br>
+<app-authent network="elrond-devnet"
+             [connexion]="option_connexion"
+             (authent)="authent($event)"></app-authent><br>
 
-<mat-form-field>
-  <mat-label>Une collection</mat-label>
-  <input matInput [(ngModel)]="settings.collection"/>
-</mat-form-field>
-<br>
+<app-input title="La référence d'un token" value_type="text" [value]="settings.token" (valueChange)="settings.token=$event"></app-input><br>
+<app-input title="Une collection" value_type="text" [value]="settings.collection" (valueChange)="settings.token=$event"></app-input><br>
+<app-input title="Une quantité" value_type="number" [value]="settings.quantity" (valueChange)="settings.quantity=$event"></app-input>
 
-<mat-form-field>
-  <mat-label>Une quantité</mat-label>
-  <input matInput [(ngModel)]="settings.quantity" type="number"/>
-</mat-form-field>
 <br>
 
 

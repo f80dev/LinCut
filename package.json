@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --live-reload",
+    "start": "ng serve",
     "start mobile": "ng serve --configuration mobile",
     "build": "ng build",
     "mobile": "ng build --configuration=mobile && gh-pages -d dist/linkut/browser --repo https://github.com/f80dev/LinCut.git -f -t true -b gh-pages -m \\\"update from gh-pages\\\"\"",
@@ -26,7 +26,19 @@
     "@types/chrome": "^0.0.260",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3"
+    "zone.js": "~0.14.3",
+    "@abacritt/angularx-social-login": "2.2.0",
+    "ng-gallery": "^8.0.3",
+    "ngx-socket-io": "^4.3.1",
+    "ngx-webcam": "^0.4.1",
+    "jsqr": "1.4.0",
+    "@google-pay/button-angular": "^3.0.8",
+    "ng-navigator-share": "1.0.4",
+    "@multiversx/sdk-core": "^12.19.0",
+    "@multiversx/sdk-extension-provider": "^3.0.0",
+    "@multiversx/sdk-network-providers": "^1.4.0",
+    "@multiversx/sdk-wallet-connect-provider": "^4.1.0",
+    "@multiversx/sdk-web-wallet-provider": "^3.2.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.2.0",

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component,  OnInit} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {NgIf} from "@angular/common";
@@ -8,6 +8,9 @@ import {MatIcon} from "@angular/material/icon";
 import {Router, RouterModule} from "@angular/router";
 import local = chrome.storage.local;
 import set = chrome.cookies.set;
+import {InputComponent} from "../input/input.component";
+import {AuthentComponent} from "../authent/authent.component";
+import {Connexion} from "../../operation";
 
 
 
@@ -15,19 +18,33 @@ import set = chrome.cookies.set;
   selector: 'app-settings',
   standalone: true,
   imports: [
-    MatFormField,RouterModule,
+    MatFormField, RouterModule,
     MatInput,
     MatLabel,
     NgIf,
     ReactiveFormsModule,
     FormsModule,
-    MatIcon
+    MatIcon, InputComponent, AuthentComponent
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit {
   settings= {address: "", token:"", collection:"", quantity:1}
+  option_connexion: Connexion={
+    address: true,
+    direct_connect: false,
+    email: false,
+    extension_wallet: false,
+    google: false,
+    keystore: false,
+    nfluent_wallet_connect: false,
+    on_device: false,
+    private_key: false,
+    wallet_connect: true,
+    web_wallet: false,
+    webcam: false
+  }
 
   constructor(public chromeExt:ChromeExtensionService,public router:Router) {
 
@@ -57,5 +74,15 @@ export class SettingsComponent implements OnInit {
   go_back() {
     this.save()
     this.router.navigate(["shorter"])
+  }
+
+  authent(evt: {
+    strong: boolean;
+    address: string;
+    provider: any;
+    encrypted: string;
+    url_direct_xportal_connect: string
+  }) {
+    this.settings.address=evt.address
   }
 }

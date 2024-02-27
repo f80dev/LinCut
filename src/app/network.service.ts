@@ -1,7 +1,7 @@
 import {HostListener, Injectable, OnInit} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {$$, Bank, CryptoKey, encrypt,  words} from "../tools";
-import {environment} from "../environments/environment";
+import {environment} from "../environments/env";
 
 import {catchError, retry, Subject, throwError, timeout} from "rxjs";
 import {Collection, Operation} from "../operation";
