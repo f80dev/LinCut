@@ -32,7 +32,7 @@
             "assets": [
               "src/favicon.ico",
               "src/icon_@0.5x.png",
-              "src/icon",
+              "src/assets",
               "src/icon_@0.25x.png",
               "src/icon_mdpi.png",
               "src/manifest.json",
@@ -51,8 +51,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/env.ts",
-                  "with": "src/environments/env.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "budgets": [
@@ -73,8 +73,8 @@
             "mobile": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/env.ts",
-                  "with": "src/environments/env.mobile.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.mobile.ts"
                 }
               ],
               "budgets": [
@@ -92,9 +92,9 @@
               "outputHashing": "all"
             },
             "development": {
-              "optimization": true,
+              "optimization": false,
               "extractLicenses": false,
-              "sourceMap": false
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"

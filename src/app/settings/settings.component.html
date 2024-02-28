@@ -1,21 +1,38 @@
+<div style="text-align: center;">
+  <mat-icon class="system_button" (click)="go_back()">chevron_left</mat-icon>
 
-<mat-icon class="system_button" (click)="go_back()">chevron_left</mat-icon>
-
-<h4>Préférences</h4>
-<p>
-  Certains services peuvent nécessiter
-</p>
-
-<app-input title="Une adresse de wallet" value_type="text" [value]="settings.address" (valueChange)="settings.address=$event"></app-input><br>
-
-<app-authent network="elrond-devnet"
-             [connexion]="option_connexion"
-             (authent)="authent($event)"></app-authent><br>
-
-<app-input title="La référence d'un token" value_type="text" [value]="settings.token" (valueChange)="settings.token=$event"></app-input><br>
-<app-input title="Une collection" value_type="text" [value]="settings.collection" (valueChange)="settings.token=$event"></app-input><br>
-<app-input title="Une quantité" value_type="number" [value]="settings.quantity" (valueChange)="settings.quantity=$event"></app-input>
-
-<br>
+  <h4>Préférences</h4>
+  <p>
+    Certains services peuvent nécessiter
+  </p>
 
 
+  <app-input label="Une adresse de wallet"
+             value_type="text" [value]="settings.address"
+             (valueChange)="settings.address=$event;save()">
+  </app-input><br>
+
+  <app-authent [network]="network"
+               *ngIf="settings.address==''"
+               [connexion]="option_connexion"
+               (authent)="authent($event)"></app-authent><br>
+
+
+  <app-input label="Une quantité / un prix" value_type="number"
+             help="Valeur utilisé pour la facturation d'accès ou les montants d'airdrop"
+             [value]="settings.quantity" (valueChange)="settings.quantity=$event;save()"></app-input>
+  <br>
+
+
+  <app-token-selector label_selected="Votre monnaie préférée"
+                      [value]="settings.token"
+                      (valueChange)="settings.token=$event;save()"
+                      [network]="network"></app-token-selector>
+
+  <br><br>
+  <app-input label="Une collection" value_type="text"
+             [value]="settings.collection"
+             (valueChange)="settings.token=$event;save()">
+  </app-input><br>
+
+</div>

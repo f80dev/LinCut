@@ -1,0 +1,85 @@
+<div *ngIf="sel_token.id==''" style="min-height: 40px;display: inline-block;width: 100%;">
+
+    <app-hourglass style="display: inline-block" [message]="message"></app-hourglass>
+    <div class="expansion-content-left" style="width:100%;">
+        <div *ngIf="tokens.length==0 && message==''"
+             style="margin-top: -4px;">Aucune monnaie disponible</div>
+
+<!--        <input [(ngModel)]="filter_by_name" -->
+<!--               title="Filtre par nom de la monnaie ou adresse de wallet"-->
+<!--               placeholder="filtre"-->
+<!--               style="background: none;opacity: 0.5;color:gray;width:60px;display: block;position:absolute;right:10px;top:10px;"-->
+<!--               *ngIf="message=='' && tokens.length>10">-->
+
+
+
+        <!--        <div style="cursor: pointer;text-align: left;"-->
+        <!--             class="mat-body-2"-->
+        <!--             *ngIf="message=='' && tokens.length>0" (click)="switch_token()">-->
+
+
+        <mat-form-field style="flex-grow: 1;" *ngIf="owner!=''">
+            <!--                <mat-label>{{label}}</mat-label>-->
+            <mat-select [(value)]="sel_filter" (valueChange)="switch_token($event)">
+                <mat-option value="all">Tous les tokens</mat-option>
+                <mat-option value="owner">Les tokens de <app-link [content]="owner"></app-link></mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div style="width: 60px;font-size: x-large;opacity: 0.9;">
+            <mat-icon (click)="open_create_esdt()"
+                      title="Comment créer votre propre monnaie"
+                      style="cursor: pointer;">add_circle</mat-icon>
+
+            <mat-icon
+                    (click)="open_search_token()"
+                    title="Comment créer votre propre monnaie"
+                    style="cursor: pointer;">
+                search
+            </mat-icon>
+        </div>
+
+
+        <br>
+    </div>
+    <!--        Liste des token-->
+    <app-input [options]="tokens"
+               [multiselect]="false" [filter]="filter_by_name"
+               value_type="listimages" height="250px" [size_image]="size"
+               (valueChange)="update_sel($event)">
+    </app-input>
+
+
+
+    <!--    <div *ngIf="show_detail && sel_token" class="expansion-content-left">-->
+    <!--        <img [src]="sel_token.image" [style.width]="size"  [style.height]="size" >-->
+    <!--        <span style="margin-left: 5px">{{sel_token.description}}</span>-->
+    <!--    </div>-->
+</div>
+
+<div *ngIf="sel_token?.id?.length>0"
+     class="mat-elevation-z2"
+     style="padding: 8px;text-align: center;width:100%;" >
+    <!--    Entete-->
+
+    <div class="mat-caption">
+        {{label_selected}}
+        <mat-icon style="margin-bottom:-8px" (click)="reset()">refresh</mat-icon>
+    </div>
+
+    <br>
+
+    <div class="mat-body-2" style="width: 100%;text-align: center;margin-top: 10px;">
+        <img [src]="sel_token.image"
+             style="margin-right: 10px;"
+             [style.width]="size_selected"
+             [style.height]="size_selected" >
+        <br><br>
+        <span [title]="sel_token.id">{{sel_token.name}}</span>
+        <span *ngIf="owner_filter!=''">({{sel_token.balance}})</span>
+    </div>
+</div>
+
+
+
+

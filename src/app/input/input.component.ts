@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
-import {NgClass, NgFor, NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatSlider, MatSliderThumb} from "@angular/material/slider";
@@ -31,7 +31,7 @@ import {MatButton} from "@angular/material/button";
     MatCheckbox,
     ReactiveFormsModule,
     MatButton,
-    NgFor,
+    NgForOf,
     MatSliderThumb
   ],
   templateUrl: './input.component.html',

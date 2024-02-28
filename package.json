@@ -6,7 +6,7 @@
     "start": "ng serve",
     "start mobile": "ng serve --configuration mobile",
     "build": "ng build",
-    "mobile": "ng build --configuration=mobile && gh-pages -d dist/linkut/browser --repo https://github.com/f80dev/LinCut.git -f -t true -b gh-pages -m \\\"update from gh-pages\\\"\"",
+    "mobile": "ng build --configuration=mobile && gh-pages -d dist/linkut/browser --repo https://github.com/f80dev/LinCut.git -f -t true -b gh-pages -m \\\"update_from_gh-pages\\\"\"",
     "watch": "ng build --watch --configuration=development",
     "test": "ng test"
   },
@@ -29,7 +29,7 @@
     "zone.js": "~0.14.3",
     "@abacritt/angularx-social-login": "2.2.0",
     "ng-gallery": "^8.0.3",
-    "ngx-socket-io": "^4.3.1",
+    "ngx-socket-io": "^4.6.1",
     "ngx-webcam": "^0.4.1",
     "jsqr": "1.4.0",
     "@google-pay/button-angular": "^3.0.8",

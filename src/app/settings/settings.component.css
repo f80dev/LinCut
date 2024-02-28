@@ -7,3 +7,18 @@ mat-form-field {
 mat-label {
   font-size: small;
 }
+
+app-input {
+  display: inline-block;
+  width:90%;
+}
+
+app-authent {
+  display: inline-block;
+  width:90%;
+}
+
+app-token-selector {
+  display: inline-block;
+  width:90%;
+}

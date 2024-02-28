@@ -11,7 +11,10 @@ import {ChromeExtensionService} from "../chrome-extension.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {ActivatedRoute, Router, RouterOutlet} from "@angular/router";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {environment} from "../../environments/env";
+import {environment} from "../../environments/environment";
+import {InputComponent} from "../input/input.component";
+import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
+import {getParams} from "../../tools";
 
 @Component({
   selector: 'app-shorter',
@@ -26,7 +29,8 @@ import {environment} from "../../environments/env";
     MatOption,
     MatSelect,
     NgIf,
-    ReactiveFormsModule, NgForOf
+    ReactiveFormsModule, NgForOf, InputComponent,
+    MatExpansionPanel,MatExpansionPanelHeader,
   ],
   templateUrl: './shorter.component.html',
   styleUrl: './shorter.component.css'
@@ -35,7 +39,7 @@ export class ShorterComponent implements OnInit {
   url = "";
   short_url: string=""
   services:any[] = []
-  service_selected=""
+  service_selected:any
 
   constructor(public chromeExt:ChromeExtensionService,
               public toast:MatSnackBar,
@@ -47,7 +51,7 @@ export class ShorterComponent implements OnInit {
 
 
   async load_services(){
-    const service_redirect={service:"redirection",url:""}
+    const service_redirect={service:"redirection",data:{}}
     let cache_service:any[]=[service_redirect]
     if(chrome && chrome.storage){
       let rep=await chrome.storage.local.get(["services"])
@@ -55,16 +59,31 @@ export class ShorterComponent implements OnInit {
         cache_service=JSON.parse(rep[0])
       }
     } else {
-      cache_service=JSON.parse(localStorage.getItem("services") || "{}")
+      try{
+        if(localStorage.getItem("services"))cache_service=JSON.parse(localStorage.getItem("services") || "[]")
+      }catch (e){
+
+      }
+
     }
 
     this.services=cache_service
-    this.service_selected=this.services[0].url
+    this.service_selected=this.services[0]
   }
 
 
   async ngOnInit() {
     this.load_services()
+
+    let params:any=await getParams(this.routes)
+    this.url=params.url || "https://"
+    this.message=params.message || "Ce lien n'est plus disponible"
+    if(params.instant)setTimeout(()=>{
+      this.short()
+    },500)
+
+
+
     if(chrome && chrome.storage){
       let res:any=await chrome.storage.local.get(["url"])
       this.url=res.url || ""
@@ -83,7 +102,8 @@ export class ShorterComponent implements OnInit {
           chrome.storage.local.set({services:services})
         }
         this.services=services
-        this.service_selected=services[0].url
+        let index=params.service ? Number(params.service) : 0
+        this.service_selected=services[index]
       }
     })
   }
@@ -101,11 +121,15 @@ export class ShorterComponent implements OnInit {
 
 
   short() {
+    //Effectue la réduction
     if(!this.url.startsWith("http"))this.url="https://"+this.url
-    let headers:HttpHeaders=new HttpHeaders({
-      "Content-Type":"application/json"
-    })
-    this.api.post(environment.domain+"/api/add/",{url:this.url},{responseType:"json"}).subscribe({
+    let values={}
+    let body={
+      url:this.url,
+      service:this.service_selected.id,
+      values:values
+    }
+    this.api.post(environment.domain+"/api/add/",body,{responseType:"json"}).subscribe({
       next:(r:any)=>{
         this.short_url=environment.domain+"/"+r.cid
       },
@@ -122,8 +146,10 @@ export class ShorterComponent implements OnInit {
 
   clear() {
     this.short_url=""
-    this.url=""
   }
 
   protected readonly environment = environment;
+  duration: number=100
+  limit: number = 10000;
+  message=""
 }

@@ -3,8 +3,8 @@ import {Component, EventEmitter, Input, OnChanges,  OnInit, Output, SimpleChange
 import {NetworkService} from "../network.service";
 import {$$, eval_direct_url_xportal, isEmail, isLocal, now,  showError, showMessage} from "../../tools";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {environment} from "../../environments/env";
-import {Location, NgFor, NgIf} from "@angular/common";
+import {environment} from "../../environments/environment";
+import {Location, NgIf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
 import {GoogleSigninButtonModule, SocialAuthService} from "@abacritt/angularx-social-login";
 import {Connexion, Operation} from "../../operation";
@@ -13,7 +13,7 @@ import {DeviceService} from "../device.service";
 import { WalletConnectV2Provider } from "@multiversx/sdk-wallet-connect-provider";
 import { ExtensionProvider } from "@multiversx/sdk-extension-provider";
 import {WALLET_PROVIDER_DEVNET, WALLET_PROVIDER_MAINNET, WalletProvider} from "@multiversx/sdk-web-wallet-provider";
-import {Socket} from "ngx-socket-io";
+import {Socket, SocketIoConfig, SocketIoModule} from "ngx-socket-io";
 import {EvmWalletServiceService} from "../evm-wallet-service.service";
 import {_prompt} from "../prompt/prompt.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -28,25 +28,28 @@ import {MatButton} from "@angular/material/button";
 
 //Installation de @multiversx/sdk-wallet-connect-provider via yarn add @multiversx/sdk-wallet-connect-provider
 
+const config: SocketIoConfig = { url: environment.server, options: {} };
+
 @Component({
   selector: 'app-authent',
   templateUrl: './authent.component.html',
   standalone: true,
-    imports: [
-        MatExpansionPanel,
-        MatExpansionPanelHeader,
-        MatCardTitle,
-        MatAccordion,
-        MatCard,
-        ScannerComponent,
-        CdkCopyToClipboard,
-        InputComponent,
-        GoogleSigninButtonModule,
-        MatIcon,
-        UploadFileComponent,
-        NgIf, NgFor,
-        MatButton
-    ],
+  imports: [
+      MatExpansionPanel,
+      MatExpansionPanelHeader,
+      MatCardTitle,
+      MatAccordion,
+      MatCard,
+      ScannerComponent,
+      CdkCopyToClipboard,
+      InputComponent,
+      GoogleSigninButtonModule,
+      MatIcon,
+      UploadFileComponent,
+      NgIf,
+      MatButton,
+
+  ],
   styleUrls: ['./authent.component.css']
 })
 export class AuthentComponent implements OnInit,OnChanges {

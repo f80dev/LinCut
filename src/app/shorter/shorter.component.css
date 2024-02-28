@@ -4,9 +4,14 @@ mat-form-field {
 
 button {
   margin: 5px;
-  width: 90px;
+  width: 110px;
 }
 
 mat-hint {
   opacity: 0.8;
+}
+
+a {
+  text-decoration: none;
+  color: white !important;
 }

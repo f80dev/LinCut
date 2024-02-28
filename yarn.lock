@@ -6325,7 +6325,7 @@ ng-navigator-share@1.0.4:
   resolved "https://registry.yarnpkg.com/ng-navigator-share/-/ng-navigator-share-1.0.4.tgz#737b3e41a42433fb3fa0a812785ab5975ade794b"
   integrity sha512-Gj/YWA8PuZ8ArZ6et8zCr/qkZfDtylcoUZ/XabWyIHrWOaBamtBlvxxsZ5yy9e+LNAqb8isEmS4IdZWwa6aEDw==
 
-ngx-socket-io@^4.3.1:
+ngx-socket-io@^4.6.1:
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/ngx-socket-io/-/ngx-socket-io-4.6.1.tgz#5dae2bee267d61079e32a5e370d11942bf4be471"
   integrity sha512-R8Ja/f9Kj+SOLk8WH+uwKrpaoTwiW5/DXmSpBKfzy7SzfoUUxQSCzVGJ4PZ20UfqsT1KKhF3kqqsxWdkPWliLQ==

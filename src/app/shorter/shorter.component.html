@@ -1,25 +1,45 @@
-<div *ngIf="short_url==''" style="margin-top: 20px;">
+<div *ngIf="short_url==''" style="padding:5%;text-align: center;position:relative;height: 100%;">
   <h1>{{environment.title}}</h1>
   <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
-  <br><br>
-  <mat-form-field>
-    <mat-label>L'adresse internet de destination</mat-label>
-    <input matInput [(ngModel)]="url"/>
-  </mat-form-field>
-  <br><br>
-  <mat-form-field>
+  <br>
+  <app-input label="L'adresse internet"
+              width="90%" value_type="text"
+             [showClear]="true" help="Adresse du site de destination"
+             [value]="url" (valueChange)="url=$event">
+  </app-input>
+  <br>
+
+  <mat-form-field style="width: 90%;">
     <mat-label>Conditions d'accès</mat-label>
     <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus>
-      <mat-option *ngFor="let service of services" [value]="service.url">{{service.service}}</mat-option>
+      <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
     </mat-select>
-    <mat-hint>Traitement avant la redirection</mat-hint>
+    <mat-hint>{{service_selected.description}}</mat-hint>
   </mat-form-field>
-  <br>
+  <br><br>
+
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>Options avancées</mat-expansion-panel-header>
+    <app-input label="Durée de validité du lien"
+               unity="jours"
+               width="90%" value_type="slider"
+               help="Nombre de jours pendant lesquel le lien fonctionne"
+               [max]="365" [min]="1"
+               [value]="duration" (valueChange)="duration=$event">
+    </app-input>
+
+    <app-input label="Message ou redirection hors délai"
+               width="90%" value_type="text"
+               [value]="message" (valueChange)="message=$event">
+    </app-input>
+
+  </mat-expansion-panel>
+
 
   <button mat-raised-button (click)="short()" color="primary"
           *ngIf="url!=''"
-          style="margin-top: 35%">
-    Raccourcir
+          style="bottom: 70px;right:15px;position: absolute;">
+    <div style="padding:15px;">Raccourcir</div>
   </button>
 </div>
 
@@ -27,9 +47,11 @@
 
 
 <div *ngIf="short_url!=''">
-  <div class="mat-subtitle-1" style="display: inline;">
+  <div class="mat-subtitle-1" style="margin-top: 10%;">
     Votre lien à partager:<br>
-    <strong>{{short_url}}</strong>
+    <a [href]="short_url" target="_blank" class="mat-headline-6 color-primary">
+      <strong>{{short_url}}</strong>
+    </a>
     <br>
 
     <div style="position:absolute;bottom:50px;width:100%;text-align: center;display:block;" >

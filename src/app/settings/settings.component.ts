@@ -11,6 +11,9 @@ import set = chrome.cookies.set;
 import {InputComponent} from "../input/input.component";
 import {AuthentComponent} from "../authent/authent.component";
 import {Connexion} from "../../operation";
+import {TokenSelectorComponent} from "../token-selector/token-selector.component";
+import network = chrome.privacy.network;
+import {environment} from "../../environments/environment";
 
 
 
@@ -24,27 +27,15 @@ import {Connexion} from "../../operation";
     NgIf,
     ReactiveFormsModule,
     FormsModule,
-    MatIcon, InputComponent, AuthentComponent
+    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit {
   settings= {address: "", token:"", collection:"", quantity:1}
-  option_connexion: Connexion={
-    address: true,
-    direct_connect: false,
-    email: false,
-    extension_wallet: false,
-    google: false,
-    keystore: false,
-    nfluent_wallet_connect: false,
-    on_device: false,
-    private_key: false,
-    wallet_connect: true,
-    web_wallet: false,
-    webcam: false
-  }
+  network="elrond-devnet"
+  option_connexion: Connexion=environment.connexion
 
   constructor(public chromeExt:ChromeExtensionService,public router:Router) {
 
@@ -85,4 +76,6 @@ export class SettingsComponent implements OnInit {
   }) {
     this.settings.address=evt.address
   }
+
+
 }
