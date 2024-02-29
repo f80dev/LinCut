@@ -21,7 +21,7 @@ export const environment = {
     direct_connect: false,
     email: true,
     extension_wallet: true,
-    google: true,
+    google: false,
     keystore: false,
     nfluent_wallet_connect: false,
     on_device: false,

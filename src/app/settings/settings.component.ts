@@ -15,6 +15,8 @@ import {TokenSelectorComponent} from "../token-selector/token-selector.component
 import network = chrome.privacy.network;
 import {environment} from "../../environments/environment";
 import {load_values} from "../linkut";
+import {CollectionSelectorComponent} from "../collection-selector/collection-selector.component";
+import {MatButton} from "@angular/material/button";
 
 
 
@@ -28,7 +30,7 @@ import {load_values} from "../linkut";
     NgIf,
     ReactiveFormsModule,
     FormsModule,
-    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent
+    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent, CollectionSelectorComponent, MatButton
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
@@ -38,8 +40,12 @@ export class SettingsComponent implements OnInit {
   token=""
   collection=""
   quantity=1
-  network="elrond-devnet"
   option_connexion: Connexion=environment.connexion
+  networks: any[]=[
+    {value:"elrond-devnet",label:"DevNet multiversX"},
+    {value:"elrond-mainnet",label:"MainNet multiversX"},
+  ]
+  network=this.networks[0]
 
   constructor(public chromeExt:ChromeExtensionService,public router:Router) {
 
@@ -86,4 +92,27 @@ export class SettingsComponent implements OnInit {
   }
 
 
+  raz(){
+    this.address=""
+    this.collection=""
+    this.token=""
+  }
+
+  change_network(new_network:any) {
+    this.raz()
+    this.network=new_network
+  }
+
+  open_explorer($event: any,section="tokens") {
+    let url="https://explorer.multiversx.com/"+section+"/"+$event
+    if(this.network.value=="elrond-devnet")url=url.replace("explorer","devnet-explorer")
+    open(url,"explorer")
+  }
+
+  open_spotlight(collection="") {
+    let url="https://xspotlight.com/collections"
+    if(collection.length>0)url=url+"/"+collection
+    if(this.network.value=="elrond-devnet")url=url.replace("xspotlight","devnet.xspotlight")
+    open(url,"spotlight")
+  }
 }

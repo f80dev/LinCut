@@ -14,7 +14,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
-import {getParams} from "../../tools";
+import {getParams, showMessage} from "../../tools";
 import {load_values} from "../linkut";
 
 
@@ -128,9 +128,9 @@ export class ShorterComponent implements OnInit {
     if(!this.url.startsWith("http"))this.url="https://"+this.url
 
     let values=await load_values(this.chromeExt)
-    for(let k of this.service_selected.data.keys()) {
+    for(let k in this.service_selected.data) {
       if (this.service_selected.data[k] == "?" && values[k] == "") {
-        this.toast.open("Le champs " + k + " doit être renseigné pour utiliser le service " + this.service_selected.service)
+        showMessage(this,"Le champs " + k + " doit être renseigné pour utiliser le service " + this.service_selected.service,4000,()=>{},"Ok")
         return;
       }
     }
@@ -166,7 +166,7 @@ export class ShorterComponent implements OnInit {
 
   async changeOperation($event: any) {
     let values=await load_values(this.chromeExt)
-    for(let f of values.keys()){
+    for(let f in values){
       this.service_selected.desc=this.service_selected.desc.replace("{{"+f+"}}",values[f])
     }
   }
