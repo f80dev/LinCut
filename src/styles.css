@@ -7,7 +7,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   cursor:pointer;
   opacity:0.8;
   position: absolute;
-  right:10px;top:10px;
+  right:10px;
+  top:10px;
 }
 
 p {

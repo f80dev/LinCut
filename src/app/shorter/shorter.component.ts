@@ -15,6 +15,8 @@ import {environment} from "../../environments/environment";
 import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
 import {getParams} from "../../tools";
+import {load_values} from "../linkut";
+
 
 @Component({
   selector: 'app-shorter',
@@ -120,10 +122,18 @@ export class ShorterComponent implements OnInit {
   }
 
 
-  short() {
+  async short() {
     //Effectue la réduction
     if(!this.url.startsWith("http"))this.url="https://"+this.url
-    let values={}
+    let values=await load_values(this.chromeExt)
+
+    for(let k of this.service_selected.data.keys()) {
+      if (this.service_selected.data[k] == "?" && values[k] == "") {
+        this.toast.open("Le champs " + k + " doit être renseigné pour utiliser le service " + this.service_selected.service)
+        return;
+      }
+    }
+
     let body={
       url:this.url,
       service:this.service_selected.id,

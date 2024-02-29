@@ -1,8 +1,8 @@
 export const environment = {
   domain:"https://t.f80.fr",
   mobile:true,
-  height:"94vh",
-  width:"98vw",
+  height:"99vh",
+  width:"100%",
   title:"The linKut App",
   production:false,
   appli:"linKut",

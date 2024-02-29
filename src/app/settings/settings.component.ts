@@ -14,6 +14,7 @@ import {Connexion} from "../../operation";
 import {TokenSelectorComponent} from "../token-selector/token-selector.component";
 import network = chrome.privacy.network;
 import {environment} from "../../environments/environment";
+import {load_values} from "../linkut";
 
 
 
@@ -33,7 +34,10 @@ import {environment} from "../../environments/environment";
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent implements OnInit {
-  settings= {address: "", token:"", collection:"", quantity:1}
+  address=""
+  token=""
+  collection=""
+  quantity=1
   network="elrond-devnet"
   option_connexion: Connexion=environment.connexion
 
@@ -42,7 +46,14 @@ export class SettingsComponent implements OnInit {
   }
 
   save(){
-    let settings_to_save=JSON.stringify(this.settings)
+    let settings_to_save=JSON.stringify(
+      {
+        address: this.address,
+        collection: this.collection,
+        quantity:this.quantity,
+        token:this.token
+      }
+  )
     if(this.chromeExt){
       this.chromeExt.set_local("settings",settings_to_save)
     }else{
@@ -51,14 +62,11 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let obj=JSON.stringify({address: "", token:"", collection:"", quantity:1})
-    if(this.chromeExt){
-      obj=(await this.chromeExt.get_local("settings")) || obj
-    }else{
-      obj=localStorage.getItem("settings") || obj
-    }
-
-    this.settings=JSON.parse(obj)
+    let settings:any=await load_values(this.chromeExt)
+    this.quantity=settings.quantity
+    this.token=settings.token
+    this.collection=settings.collection
+    this.address=settings.address
   }
 
 
@@ -74,7 +82,7 @@ export class SettingsComponent implements OnInit {
     encrypted: string;
     url_direct_xportal_connect: string
   }) {
-    this.settings.address=evt.address
+    this.address=evt.address
   }
 
 

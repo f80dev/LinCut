@@ -1,16 +1,17 @@
-<div style="display: inline-block;max-width: 600px;position:relative;height:100vh;">
-  <div *ngIf="short_url==''" style="padding:2%;text-align: center;position:relative;height: 100%;">
+<div style="display: inline-block;width:100%;min-width:350px;max-width: 600px;position:relative;height:100vh;">
+  <div *ngIf="short_url==''" style="padding:5%;text-align: center;position:relative;height: 100%;">
+    <mat-icon (click)="open_settings()" class="system_button">settings</mat-icon>
     <h1>{{environment.title}}</h1>
     <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
     <br>
     <app-input label="L'adresse internet"
-               width="90%" value_type="text"
+               width="100%" value_type="text"
                [showClear]="true" help="Adresse du site de destination"
                [value]="url" (valueChange)="url=$event">
     </app-input>
     <br>
 
-    <mat-form-field style="width: 90%;">
+    <mat-form-field style="width: 100%;">
       <mat-label>Conditions d'accès</mat-label>
       <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus>
         <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
@@ -33,16 +34,16 @@
                  width="90%" value_type="text"
                  [value]="message" (valueChange)="message=$event">
       </app-input>
+
     </mat-expansion-panel>
 
     <button mat-raised-button (click)="short()" color="primary"
             *ngIf="url!=''"
-            style="bottom: 40px;right:15px;position: absolute;">
-      <div style="padding:15px;">Raccourcir</div>
+            style="bottom: 70px;right:15px;position: absolute;width:140px;height:60px;">
+      <div style="font-size: large;">Raccourcir</div>
     </button>
   </div>
 
-  <mat-icon (click)="open_settings()" class="system_button">settings</mat-icon>
 
   <div *ngIf="short_url!=''">
     <div class="mat-subtitle-1" style="margin-top: 10%;">
