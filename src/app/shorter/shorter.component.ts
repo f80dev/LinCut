@@ -94,7 +94,7 @@ export class ShorterComponent implements OnInit {
 
     this.short_url=""
 
-    this.api.get(environment.domain+"/api/services/").subscribe({
+    this.api.get(environment.shorter_service+"/api/services/").subscribe({
       next:(services:any)=>{
         if(environment.mobile){
           localStorage.setItem("services",services)
@@ -129,9 +129,9 @@ export class ShorterComponent implements OnInit {
       service:this.service_selected.id,
       values:values
     }
-    this.api.post(environment.domain+"/api/add/",body,{responseType:"json"}).subscribe({
+    this.api.post(environment.shorter_service+"/api/add/",body,{responseType:"json"}).subscribe({
       next:(r:any)=>{
-        this.short_url=environment.domain+"/"+r.cid
+        this.short_url=environment.shorter_service+"/"+r.cid
       },
       error:(err)=>{
         this.toast.open("Problème de traitement de l'url, veuillez recommencer")
