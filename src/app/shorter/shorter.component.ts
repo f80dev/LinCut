@@ -42,6 +42,7 @@ export class ShorterComponent implements OnInit {
   short_url: string=""
   services:any[] = []
   service_selected:any
+  values: any={}
 
   constructor(public chromeExt:ChromeExtensionService,
               public toast:MatSnackBar,
@@ -125,8 +126,8 @@ export class ShorterComponent implements OnInit {
   async short() {
     //Effectue la réduction
     if(!this.url.startsWith("http"))this.url="https://"+this.url
-    let values=await load_values(this.chromeExt)
 
+    let values=await load_values(this.chromeExt)
     for(let k of this.service_selected.data.keys()) {
       if (this.service_selected.data[k] == "?" && values[k] == "") {
         this.toast.open("Le champs " + k + " doit être renseigné pour utiliser le service " + this.service_selected.service)
@@ -162,4 +163,12 @@ export class ShorterComponent implements OnInit {
   duration: number=100
   limit: number = 10000;
   message=""
+
+  async changeOperation($event: any) {
+    let values=await load_values(this.chromeExt)
+    for(let f of values.keys()){
+      this.service_selected.desc=this.service_selected.desc.replace("{{"+f+"}}",values[f])
+    }
+  }
+
 }

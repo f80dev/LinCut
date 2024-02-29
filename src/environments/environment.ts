@@ -9,7 +9,7 @@ export const environment = {
 
   shorter_service:"http://127.0.0.1:80",
   //shorter_service:"https://api.f80.fr",
-  server:"https://api.f80.fr:4242",
+  server:"https://api.nfluent.io:4242",
   redirect_server:"https://gate.nfluent.io",
   merchant:{},
   website:"",

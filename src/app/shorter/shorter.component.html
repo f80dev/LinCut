@@ -13,10 +13,10 @@
 
     <mat-form-field style="width: 100%;">
       <mat-label>Conditions d'accès</mat-label>
-      <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus>
+      <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus (valueChange)="changeOperation($event)">
         <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
       </mat-select>
-      <mat-hint>{{service_selected.description}}</mat-hint>
+      <mat-hint>{{service_selected.desc}}</mat-hint>
     </mat-form-field>
     <br><br>
 

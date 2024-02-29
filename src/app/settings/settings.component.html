@@ -10,7 +10,7 @@
   <app-input label="Une adresse de wallet"
              value_type="text" [value]="address"
              (valueChange)="address=$event;save()">
-  </app-input><br>
+  </app-input>
 
   <app-authent [network]="network"
                *ngIf="address==''"
@@ -21,18 +21,19 @@
   <app-input label="Une quantité / un prix" value_type="number"
              help="Valeur utilisé pour la facturation d'accès ou les montants d'airdrop"
              [value]="quantity" (valueChange)="quantity=$event;save()"></app-input>
-  <br>
 
+  <app-input label="Crypto préféré" value_type="text"
+             help=""
+             [value]="token" (valueChange)="token=$event;save()"></app-input>
 
   <app-token-selector label_selected="Votre monnaie préférée"
-                      [value]="token"
-                      (valueChange)="token=$event;save()"
+                      *ngIf="token==''"
+                      (valueChange)="token=$event.id;save()"
                       [network]="network"></app-token-selector>
 
-  <br><br>
   <app-input label="Une collection" value_type="text"
              [value]="collection"
-             (valueChange)="token=$event;save()">
+             (valueChange)="collection=$event;save()">
   </app-input><br>
 
 </div>
