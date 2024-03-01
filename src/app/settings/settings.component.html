@@ -8,12 +8,9 @@
              (valueChange)="change_network($event)">
   </app-input>
 
-  <br>
   <p>
     Paramètre à utiliser pour certains services
   </p>
-
-
 
   <app-input label="Une adresse de wallet"
              value_type="text" [value]="address"
@@ -26,10 +23,13 @@
                [connexion]="option_connexion"
                (authent)="authent($event)"></app-authent><br>
 
+  <br><br>
 
   <app-input label="Une quantité / un prix" value_type="number"
              help="Valeur utilisé pour la facturation d'accès ou les montants d'airdrop"
              [value]="quantity" (valueChange)="quantity=$event"></app-input>
+
+  <br><br>
 
   <app-input label="Crypto préféré" value_type="text"
              help="" icon_action="visibility" (action)="open_explorer($event)"
@@ -40,6 +40,8 @@
                       style="width:80%"
                       (valueChange)="token=$event.id"
                       [network]="network.value"></app-token-selector>
+
+  <br><br>
 
   <app-input label="Une collection" value_type="text"
              [value]="collection" icon_action="visibility" (action)="open_spotlight($event)"

@@ -17,6 +17,7 @@ import {environment} from "../../environments/environment";
 import {load_values} from "../linkut";
 import {CollectionSelectorComponent} from "../collection-selector/collection-selector.component";
 import {MatButton} from "@angular/material/button";
+import {NetworkService} from "../network.service";
 
 
 
@@ -46,18 +47,35 @@ export class SettingsComponent implements OnInit {
     {value:"elrond-mainnet",label:"MainNet multiversX"},
   ]
   network=this.networks[0]
+  unity="";
 
-  constructor(public chromeExt:ChromeExtensionService,public router:Router) {
+  constructor(public chromeExt:ChromeExtensionService,
+              public api:NetworkService,
+              public router:Router) {
 
   }
 
   save(){
+    if(this.token!=""){
+      this.api.get_token(this.token,this.network.value).subscribe((r:any)=>{
+        if(r){
+          this.unity=r.unity
+          this.save()
+        }else{
+          this.unity="";
+        }
+
+      })
+    }
+
     let settings_to_save=JSON.stringify(
       {
         address: this.address,
         collection: this.collection,
         quantity:this.quantity,
-        token:this.token
+        token:this.token,
+        network:this.network,
+        unity:this.unity
       }
   )
     if(this.chromeExt){
@@ -73,6 +91,7 @@ export class SettingsComponent implements OnInit {
     this.token=settings.token
     this.collection=settings.collection
     this.address=settings.address
+    this.network=settings.network
   }
 
 

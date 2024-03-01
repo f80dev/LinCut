@@ -135,6 +135,7 @@ export class ShorterComponent implements OnInit {
       }
     }
 
+    values.network=values.network.value
     let body={
       url:this.url,
       service:this.service_selected.id,
