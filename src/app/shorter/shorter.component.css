@@ -11,7 +11,27 @@ mat-hint {
   opacity: 0.8;
 }
 
+.app-input-style {
+  display: inline-block;
+  width:90%;
+  margin:5%;
+}
+
 a {
   text-decoration: none;
   color: white !important;
+}
+
+.codezone {
+  text-align: left;
+  padding:10px;
+  font-size: medium;
+  overflow: hidden;
+  background-color: black;
+  line-height: 105%;
+  color: greenyellow;
+  width:80%;
+  display:inline-block;
+  height:150px;
+  font-family: 'Times New Roman' ,serif
 }

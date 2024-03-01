@@ -6,7 +6,7 @@ export const environment = {
   title:"linKut",
   production:true,
   appli:"linKut",
-  server:"https://api.f80.fr:4242",
+  server:"https://api.nfluent.io:4242",
   shorter_service:"https://api.f80.fr",
   redirect_server:"https://gate.nfluent.io",
   merchant:{},

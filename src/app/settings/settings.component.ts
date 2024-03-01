@@ -6,18 +6,16 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ChromeExtensionService} from "../chrome-extension.service";
 import {MatIcon} from "@angular/material/icon";
 import {Router, RouterModule} from "@angular/router";
-import local = chrome.storage.local;
-import set = chrome.cookies.set;
 import {InputComponent} from "../input/input.component";
 import {AuthentComponent} from "../authent/authent.component";
 import {Connexion} from "../../operation";
 import {TokenSelectorComponent} from "../token-selector/token-selector.component";
-import network = chrome.privacy.network;
 import {environment} from "../../environments/environment";
 import {load_values} from "../linkut";
 import {CollectionSelectorComponent} from "../collection-selector/collection-selector.component";
 import {MatButton} from "@angular/material/button";
 import {NetworkService} from "../network.service";
+import {MatTab, MatTabGroup} from "@angular/material/tabs";
 
 
 
@@ -31,7 +29,7 @@ import {NetworkService} from "../network.service";
     NgIf,
     ReactiveFormsModule,
     FormsModule,
-    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent, CollectionSelectorComponent, MatButton
+    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent, CollectionSelectorComponent, MatButton, MatTabGroup, MatTab
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
@@ -46,13 +44,13 @@ export class SettingsComponent implements OnInit {
     {value:"elrond-devnet",label:"DevNet multiversX"},
     {value:"elrond-mainnet",label:"MainNet multiversX"},
   ]
-  network=this.networks[0]
+  network:any;
   unity="";
 
   constructor(public chromeExt:ChromeExtensionService,
               public api:NetworkService,
               public router:Router) {
-
+    setTimeout(()=>{this.network=this.networks[0]},100)
   }
 
   save(){

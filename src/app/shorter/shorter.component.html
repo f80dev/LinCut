@@ -5,13 +5,14 @@
     <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
     <br>
     <app-input label="L'adresse internet"
-               width="100%" value_type="text"
+               value_type="text"
+               class="app-input-style"
                [showClear]="true" help="Adresse du site de destination"
                [value]="url" (valueChange)="url=$event">
     </app-input>
     <br>
 
-    <mat-form-field style="width: 100%;">
+    <mat-form-field class="app-input-style">
       <mat-label>Conditions d'accès</mat-label>
       <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus (valueChange)="changeOperation($event)">
         <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
@@ -20,7 +21,7 @@
     </mat-form-field>
     <br><br>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel class="app-input-style">
       <mat-expansion-panel-header>Options avancées</mat-expansion-panel-header>
       <app-input label="Durée de validité du lien"
                  unity="jours"
@@ -52,11 +53,30 @@
         <strong>{{short_url}}</strong>
       </a>
       <br>
+      <button mat-raised-button (click)="copy(short_url)">Copier</button>
+
+      <div *ngIf="qrcode">
+        <br>
+        <img [src]="qrcode"
+             style="width: 200px;height:200px;display:inline-block;"
+             (click)="copy(qrcode)">
+        <br>
+      </div>
+
+      <br>
+      <mat-expansion-panel style="margin-top:100px;width:90%;display: inline-block;">
+        <mat-expansion-panel-header>Mode avancé</mat-expansion-panel-header>
+        <p style="line-height: 85%;">Pour garantir que {{url}} ne soit pas accessible directement, insérer le script suivant dans sa page</p>
+        <div class="mat-elevation-z8 codezone" >
+          {{code}}
+        </div>
+        <br>
+        <button mat-raised-button (click)="copy(code)">Copier</button>
+      </mat-expansion-panel>
+
+
 
       <div style="position:absolute;bottom:50px;width:100%;text-align: center;display:block;" >
-        <button mat-raised-button (click)="copy()">
-          Copier
-        </button>
         <button mat-raised-button (click)="share()" color="primary">
           Partager
         </button>

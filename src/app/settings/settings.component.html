@@ -1,8 +1,9 @@
-<div style="text-align: center;max-width: 600px;display: inline-block;">
+<div style="padding:1%;text-align: center;max-width: 450px;width:100vw;display: inline-block;position:relative;" >
   <mat-icon class="system_button" (click)="go_back()">chevron_left</mat-icon>
   <h4>Préférences</h4>
 
   <app-input value_type="list"
+             style="display: inline-block;width:85%;"
              label="Sélectionner un réseau"
              [options]="networks" [value]="network"
              (valueChange)="change_network($event)">
@@ -12,49 +13,65 @@
     Paramètre à utiliser pour certains services
   </p>
 
-  <app-input label="Une adresse de wallet"
-             value_type="text" [value]="address"
-             (valueChange)="address=$event;save()">
-  </app-input>
-
-  <app-authent [network]="network.value"
-               *ngIf="address==''"
-               style="width:80%"
-               [connexion]="option_connexion"
-               (authent)="authent($event)"></app-authent><br>
-
-  <br><br>
-
   <app-input label="Une quantité / un prix" value_type="number"
+             style="display: inline-block;width:85%;"
              help="Valeur utilisé pour la facturation d'accès ou les montants d'airdrop"
              [value]="quantity" (valueChange)="quantity=$event"></app-input>
 
-  <br><br>
+  <mat-tab-group dynamicHeight style="width: 92%;margin:3%;height:500px;overflow: hidden;" class="mat-elevation-z8" *ngIf="network">
+    <mat-tab label="Wallet">
+      <br>
+      <app-input label="Une adresse de wallet"
+                 style="display: inline-block;width:85%;"
+                 value_type="text" [value]="address"
+                 (valueChange)="address=$event;save()">
+      </app-input>
 
-  <app-input label="Crypto préféré" value_type="text"
-             help="" icon_action="visibility" (action)="open_explorer($event)"
-             [value]="token" (valueChange)="token=$event"></app-input>
+      <div style="display:inline-block;width: 91%;">
+        <app-authent [network]="network.value"
+                     *ngIf="address==''"
+                     [connexion]="option_connexion"
+                     (authent)="authent($event)"></app-authent><br>
 
-  <app-token-selector label_selected="Votre monnaie préférée"
-                      *ngIf="token==''"
-                      style="width:80%"
-                      (valueChange)="token=$event.id"
-                      [network]="network.value"></app-token-selector>
+      </div>
 
-  <br><br>
+    </mat-tab>
+    <mat-tab label="Tokens">
+      <br>
+      <app-input label="Crypto préféré" value_type="text"
+                 help="" icon_action="visibility" (action)="open_explorer($event)"
+                 [value]="token" (valueChange)="token=$event"></app-input>
 
-  <app-input label="Une collection" value_type="text"
-             [value]="collection" icon_action="visibility" (action)="open_spotlight($event)"
-             (valueChange)="collection=$event">
-  </app-input>
-<!--  <app-collection-selector *ngIf="collection==''"-->
-<!--                           style="width:80%"-->
-<!--                           [network]="network.value"-->
-<!--                           (selected)="collection=$event.id"></app-collection-selector>-->
+      <app-token-selector label_selected="Votre monnaie préférée"
+                          *ngIf="token==''"
+                          style="width: 350px;height: 250px;"
+                          (valueChange)="token=$event.id"
+                          [network]="network.value"></app-token-selector>
 
+      <br><br>
+
+      <app-input label="Collection préférée" value_type="text"
+                 [value]="collection" icon_action="visibility" (action)="open_spotlight($event)"
+                 (valueChange)="collection=$event">
+      </app-input>
+      <!--  <app-collection-selector *ngIf="collection==''"-->
+      <!--                           style="width:80%"-->
+      <!--                           [network]="network.value"-->
+      <!--                           (selected)="collection=$event.id"></app-collection-selector>-->
+
+      <br><br>
+      <button mat-raised-button
+              (click)="open_spotlight()">
+        Voir les collections
+      </button>
+
+    </mat-tab>
+
+  </mat-tab-group>
   <br>
-  <button mat-raised-button
-          (click)="open_spotlight()">
-    Voir les collections
+  <button mat-raised-button (click)="go_back()">
+    Retour
   </button>
+
+
 </div>
