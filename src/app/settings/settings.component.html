@@ -18,7 +18,7 @@
              help="Valeur utilisé pour la facturation d'accès ou les montants d'airdrop"
              [value]="quantity" (valueChange)="quantity=$event"></app-input>
 
-  <mat-tab-group dynamicHeight style="width: 92%;margin:3%;height:500px;overflow: hidden;" class="mat-elevation-z8" *ngIf="network">
+  <mat-tab-group dynamicHeight style="width: 92%;margin:3%;height:600px;overflow: hidden;" class="mat-elevation-z8" *ngIf="network">
     <mat-tab label="Wallet">
       <br>
       <app-input label="Une adresse de wallet"

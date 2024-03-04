@@ -1,6 +1,6 @@
 <div style="display: inline-block;width:100%;min-width:350px;max-width: 600px;position:relative;height:100vh;">
   <div *ngIf="short_url==''" style="padding:5%;text-align: center;position:relative;height: 100%;">
-    <mat-icon (click)="open_settings()" class="system_button">settings</mat-icon>
+    <mat-icon (click)="open_about()" class="system_button">person</mat-icon>
     <h1>{{environment.title}}</h1>
     <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
     <br>
@@ -38,10 +38,12 @@
 
     </mat-expansion-panel>
 
-    <button mat-raised-button (click)="short()" color="primary"
-            *ngIf="url!=''"
-            style="bottom: 70px;right:15px;position: absolute;width:130px;height:55px;">
-      <div style="font-size: large;">Raccourcir</div>
+
+    <button mat-raised-button (click)="open_settings()">
+      Mes Paramètres
+    </button>
+    <button mat-raised-button (click)="short()" color="primary" *ngIf="url!=''">
+      Raccourcir
     </button>
   </div>
 
@@ -64,9 +66,9 @@
       </div>
 
       <br>
-      <mat-expansion-panel style="margin-top:100px;width:90%;display: inline-block;">
+      <mat-expansion-panel style="margin-top:100px;width:90%;display: inline-block;" *ngIf="environment.version>0.1">
         <mat-expansion-panel-header>Mode avancé</mat-expansion-panel-header>
-        <p style="line-height: 85%;">Pour garantir que {{url}} ne soit pas accessible directement, insérer le script suivant dans sa page</p>
+        <p style="line-height: 85%;">Pour garantir que votre contenu {{url}} ne soit accessible qu'en passant par votre filtre, insérez le script suivant dans sa page</p>
         <div class="mat-elevation-z8 codezone" >
           {{code}}
         </div>

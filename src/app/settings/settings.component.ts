@@ -72,7 +72,7 @@ export class SettingsComponent implements OnInit {
         collection: this.collection,
         quantity:this.quantity,
         token:this.token,
-        network:this.network,
+        network:this.network.value,
         unity:this.unity
       }
   )
@@ -89,7 +89,7 @@ export class SettingsComponent implements OnInit {
     this.token=settings.token
     this.collection=settings.collection
     this.address=settings.address
-    this.network=settings.network
+    this.network={value:settings.network,label:settings.network}
   }
 
 

@@ -15,7 +15,7 @@ export const environment = {
   website:"",
   faqs:"",
   company:"f80",
-  version:"0.1",
+  version: 0.2,
   connexion:{
     address: true,
     direct_connect: false,

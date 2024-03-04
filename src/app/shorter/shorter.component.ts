@@ -16,6 +16,7 @@ import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
 import {getParams, showError, showMessage} from "../../tools";
 import {load_values} from "../linkut";
+import {AboutComponent} from "../about/about.component";
 
 
 @Component({
@@ -87,7 +88,7 @@ export class ShorterComponent implements OnInit {
     this.load_services()
 
     let params: any = await getParams(this.routes)
-    this.url = params.url || "https://"
+    this.url = params.url || localStorage.getItem("url") || "https://"
     this.message = params.message || "Ce lien n'est plus disponible"
     if (params.instant) setTimeout(() => {
       this.short()
@@ -134,6 +135,7 @@ export class ShorterComponent implements OnInit {
   async short()  {
     //Effectue la réduction
     if (!this.url.startsWith("http")) this.url = "https://" + this.url
+    localStorage.setItem("url",this.url)
 
     let values = await load_values(this.chromeExt)
     for (let k in this.service_selected.data) {
@@ -179,8 +181,12 @@ export class ShorterComponent implements OnInit {
   async changeOperation($event: any) {
     let values = await load_values(this.chromeExt)
     for (let f in values) {
+      if(typeof(f)!='string')f=f[0];
       this.service_selected.desc = this.service_selected.desc.replace("{{" + f + "}}", values[f])
     }
   }
 
+  open_about() {
+    this.router.navigate([AboutComponent])
+  }
 }
