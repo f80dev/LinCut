@@ -9,25 +9,31 @@
              (valueChange)="change_network($event)">
   </app-input>
 
-  <p>
-    Paramètre à utiliser pour certains services
-  </p>
 
+  <p>
+    Suivant le service, cette quantité désignera le montant à facturer ou la quantité à distribuer pour un airdrop
+  </p>
   <app-input label="Une quantité / un prix" value_type="number"
              style="display: inline-block;width:85%;"
              help="Valeur utilisé pour la facturation d'accès ou les montants d'airdrop"
              [value]="quantity" (valueChange)="quantity=$event"></app-input>
 
+
   <mat-tab-group dynamicHeight style="width: 92%;margin:3%;height:600px;overflow: hidden;" class="mat-elevation-z8" *ngIf="network">
     <mat-tab label="Wallet">
       <br>
+      <p>Un wallet peut être utilisé dans les services de facturation pour percevoir les paiements</p>
+      <br>
       <app-input label="Une adresse de wallet"
-                 style="display: inline-block;width:85%;"
+                 class="app-input-style"
                  value_type="text" [value]="address"
-                 (valueChange)="address=$event;save()">
+                 (valueChange)="address=$event;">
       </app-input>
 
+
+
       <div style="display:inline-block;width: 91%;">
+
         <app-authent [network]="network.value"
                      *ngIf="address==''"
                      [connexion]="option_connexion"
@@ -38,7 +44,8 @@
     </mat-tab>
     <mat-tab label="Tokens">
       <br>
-      <app-input label="Crypto préféré" value_type="text"
+      <p>Par défaut cette crypto sera la monnaie demandé pour les paiements ou distribué via les services d'airdrop</p>
+      <app-input label="Crypto préféré" value_type="text" class="app-input-style"
                  help="" icon_action="visibility" (action)="open_explorer($event)"
                  [value]="token" (valueChange)="token=$event"></app-input>
 
@@ -51,6 +58,7 @@
       <br><br>
 
       <app-input label="Collection préférée" value_type="text"
+                 class="app-input-style"
                  [value]="collection" icon_action="visibility" (action)="open_spotlight($event)"
                  (valueChange)="collection=$event">
       </app-input>
