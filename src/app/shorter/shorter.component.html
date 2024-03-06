@@ -1,6 +1,6 @@
 <div style="display: inline-block;width:100%;min-width:350px;max-width: 600px;position:relative;height:100vh;">
   <div *ngIf="short_url==''" style="padding:5%;text-align: center;position:relative;height: 100%;">
-    <mat-icon (click)="open_about()" class="system_button">person</mat-icon>
+    <mat-icon (click)="open_about()" class="system_button">help</mat-icon>
     <h1>{{environment.title}}</h1>
     <p>Rediriger vos adresses internet en ajoutant des conditions d'accès</p>
     <br>
@@ -12,14 +12,16 @@
     </app-input>
     <br>
 
+
     <mat-form-field class="app-input-style">
       <mat-label>Conditions d'accès</mat-label>
       <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus (valueChange)="changeOperation($event)">
         <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
       </mat-select>
-      <mat-hint>{{service_selected.desc}}</mat-hint>
+      <mat-hint>sélectionner un filtre appliqué au visiteur du site / contenu</mat-hint>
     </mat-form-field>
     <br><br>
+
 
     <mat-expansion-panel class="app-input-style">
       <mat-expansion-panel-header>Options avancées</mat-expansion-panel-header>
@@ -38,12 +40,16 @@
 
     </mat-expansion-panel>
 
+    <br>
+    <h5 style="margin-bottom:-3px">Traitement:</h5>
+    <p>{{service_selected.desc}}</p>
+    <br>
 
     <button mat-raised-button (click)="open_settings()">
       Mes Paramètres
     </button>
     <button mat-raised-button (click)="short()" color="primary" *ngIf="url!=''">
-      Raccourcir
+      Appliquer le traitement
     </button>
   </div>
 
@@ -55,13 +61,12 @@
         <strong>{{short_url}}</strong>
       </a>
       <br><br>
-      <button mat-raised-button (click)="copy(short_url)">Copier</button>
+      <button mat-raised-button (click)="copy(short_url,'lien copié')">Copier</button>
+      <button mat-raised-button (click)="share()" color="primary">Partager</button>
 
       <div *ngIf="qrcode">
         <br>
-        <img [src]="qrcode"
-             style="width: 200px;height:200px;display:inline-block;"
-             (click)="copy(qrcode)">
+        <img [src]="qrcode" style="width: 200px;height:200px;display:inline-block;" (click)="copy(qrcode,'image copiée')"/>
         <br>
       </div>
 
@@ -77,11 +82,7 @@
       </mat-expansion-panel>
 
 
-
       <div style="position:absolute;bottom:50px;width:100%;text-align: center;display:block;" >
-        <button mat-raised-button (click)="share()" color="primary">
-          Partager
-        </button>
         <button mat-raised-button (click)="clear()">
           Nouveau
         </button>

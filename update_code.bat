@@ -7,6 +7,7 @@ xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\tuto\*.* src\app\tuto\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\selkey\*.* src\app\selkey\
 #xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\genlink\*.* src\app\genlink\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\faqs\*.* src\app\faqs\
+xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\dbtable\*.* src\app\dbtable\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\link\*.* src\app\link\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\token-selector\*.* src\app\token-selector\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\collection-selector\*.* src\app\collection-selector\

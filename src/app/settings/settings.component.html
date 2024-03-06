@@ -36,6 +36,7 @@
 
         <app-authent [network]="network.value"
                      *ngIf="address==''"
+                     [walletconnect_open]="false"
                      [connexion]="option_connexion"
                      (authent)="authent($event)"></app-authent><br>
 

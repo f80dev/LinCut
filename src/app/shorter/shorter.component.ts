@@ -121,9 +121,10 @@ export class ShorterComponent implements OnInit {
   }
 
 
-  async copy(toCopy:string) {
+  async copy(toCopy:string,message="") {
     await navigator.clipboard.writeText(toCopy)
-    this.toast.open("Lien copié")
+    showMessage(this,message)
+
   }
 
 
@@ -155,10 +156,7 @@ export class ShorterComponent implements OnInit {
     this.api.post(environment.shorter_service + "/api/add/", body, {responseType: "json"}).subscribe({
       next: (r: any) => {
         this.short_url = environment.shorter_service + "/" + r.cid
-        this.api.post(environment.server+"/api/qrcode/",{url:this.short_url}).subscribe({
-          next:(r:any)=>{this.qrcode=r.qrcode},
-          error:(err:any)=>{showError(this,err)}
-        })
+        this.qrcode=environment.server+"/api/qrcode/?code="+encodeURIComponent(this.short_url)
         this.code="p={};\nfor (const [key, value] of new URLSearchParams(location.search).entries()) {\np[key] = value;}\n" +
           "        if(!p.code)location.url='"+this.short_url+"'"
       },
@@ -187,6 +185,6 @@ export class ShorterComponent implements OnInit {
   }
 
   open_about() {
-    this.router.navigate([AboutComponent])
+    this.router.navigate(["about"])
   }
 }

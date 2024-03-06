@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --live-reload",
     "start mobile": "ng serve --configuration mobile",
     "build": "ng build",
     "mobile": "ng build --configuration=mobile && gh-pages -d dist/linkut/browser --repo https://github.com/f80dev/LinCut.git -f -t true -b gh-pages -m \\\"update_from_gh-pages\\\"\"",

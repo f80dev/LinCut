@@ -123,6 +123,7 @@ export class AuthentComponent implements OnInit,OnChanges {
   relayUrl:string = "wss://relay.walletconnect.com";
   qrcode_enabled: boolean = true;
   url_xportal_direct_connect: string="";
+  @Input() walletconnect_open=true;
 
   constructor(
       public api:NetworkService,
