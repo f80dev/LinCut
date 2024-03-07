@@ -1,0 +1,18 @@
+<div class="mainform" style="padding:10px;">
+  <h4>Administation</h4>
+  <br>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>Services</mat-expansion-panel-header>
+    <app-dbtable [source]="services" title="Services disponibles"></app-dbtable>
+  </mat-expansion-panel>
+
+  <br>
+  <br>
+  <app-dbtable [source]="links"
+               [dictionnary]="{cid:'identifiant',dtCreate:'Date de création',duration:'Durée de validité'}"
+               (open)="open_cel($event)"
+               title="Liens enregistrés"></app-dbtable>
+
+</div>
+
+
