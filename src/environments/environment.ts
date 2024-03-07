@@ -14,7 +14,7 @@ export const environment = {
   redirect_server:"https://gate.nfluent.io",
   merchant:{},
   website:"https://f80.fr",
-  faqs:"",
+  faqs:"https://linkut.f80.fr/assets/faqs.yaml",
   company:"f80",
   version: 0.2,
   connexion:{

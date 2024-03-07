@@ -44,7 +44,7 @@
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.css",
-              "src/linkut.css"
+              "src/linKut.css"
             ],
             "scripts": []
           },
@@ -134,7 +134,7 @@
             "styles": [
               "@angular/material/prebuilt-themes/purple-green.css",
               "src/styles.css",
-              "src/linkut.css"
+              "src/linKut.css"
             ],
             "scripts": []
           }

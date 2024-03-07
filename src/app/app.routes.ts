@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: 'settings', component: SettingsComponent },
   { path: 'main', component: ShorterComponent },
   { path: 'about', component: AboutComponent },
-  { path: 'faq', component: FaqsComponent },
+  { path: 'faqs', component: FaqsComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'shorter', component: ShorterComponent },
   { path: '**', component: ShorterComponent },

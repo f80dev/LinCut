@@ -1,5 +1,5 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {HttpClient} from "@angular/common/http";;
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {HttpClient} from "@angular/common/http"
 import {NetworkService} from "../network.service";
 import {MatDialog} from "@angular/material/dialog";
 import {_prompt} from "../prompt/prompt.component";
@@ -15,6 +15,9 @@ import {
 } from "@angular/material/table";
 import {MatButton} from "@angular/material/button";
 import {NgForOf, NgIf} from "@angular/common";
+import {Clipboard} from "@angular/cdk/clipboard";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {showMessage} from "../../tools";
 
 @Component({
   selector: 'app-dbtable',
@@ -48,11 +51,14 @@ export class DbtableComponent implements OnInit,OnChanges {
   @Input() showClear=false;
   @Input() title="";
   @Input() dictionnary:any={};
+  @Output() open:EventEmitter<any> =new EventEmitter<any>();
 
   constructor(
     public httpClient:HttpClient,
     public network:NetworkService,
-    public dialog:MatDialog
+    public dialog:MatDialog,
+    public clipboard:Clipboard,
+    public toast:MatSnackBar
   ) { }
 
   update_cols(cols:string[]){
@@ -128,5 +134,16 @@ export class DbtableComponent implements OnInit,OnChanges {
       }
     } else
       return txt;
+  }
+
+  copy_element(elt: string) {
+    this.clipboard.copy(elt)
+    showMessage(this,"Cellule copiée")
+  }
+
+
+  open_cell(col:string,elt: any) {
+    this.open.emit({col:col,value:elt});
+    showMessage(this,"Ouverture")
   }
 }
