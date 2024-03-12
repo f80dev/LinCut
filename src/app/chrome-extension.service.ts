@@ -2,11 +2,11 @@
 //voir https://stackoverflow.com/questions/53169721/how-to-use-chrome-extension-api-with-angular
 
 import {Injectable, OnDestroy, OnInit} from '@angular/core';
-import {Subject} from "rxjs";
+
 @Injectable({
   providedIn: 'root',
 })
-export class ChromeExtensionService implements OnInit,OnDestroy {
+export class ChromeExtensionService {
 
 
   constructor() {
@@ -34,35 +34,34 @@ export class ChromeExtensionService implements OnInit,OnDestroy {
   }
 
 
-  ngOnInit(): void {
 
-  }
-
-  ngOnDestroy(): void {
-  }
-
-
-  get_local(key: string) {
+  get_local(key: string,_default="") : Promise<string> {
     return new Promise<any>((resolve) => {
-      if(chrome.storage) {
+      if(chrome && chrome.storage) {
         chrome.storage.local.get(key, (item: any) => {
-          resolve(item)
+          resolve(item[key] || _default)
         })
       }else{
-        resolve(localStorage.getItem(key))
+        resolve(localStorage.getItem(key) || _default)
       }
     })
   }
 
 
-  set_local(key:string,value:string){
-    if(chrome.storage){
-      chrome.storage.local.set({ key: value }, ()=>{
-        //  Data's been saved boys and girls, go on home
-      });
-    }else{
-      localStorage.setItem(key,value)
-    }
+  set_local(key:string,value:any){
+    return new Promise<boolean>(async (resolve) => {
+      if(chrome && chrome.storage){
+        let obj=JSON.parse(await this.get_local(key,"{}"))
+        obj[key]=value
+        chrome.storage.local.set(obj, ()=>{
+        resolve(true)
+        });
+      }else{
+        localStorage.setItem(key,value)
+        resolve(true)
+      }
+    })
+
 
   }
 }

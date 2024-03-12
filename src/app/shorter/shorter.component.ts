@@ -15,8 +15,9 @@ import {environment} from "../../environments/environment";
 import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
 import {getParams, showError, showMessage} from "../../tools";
-import {load_values} from "../linkut";
+import {load_values, save_value} from "../linkut";
 import {AboutComponent} from "../about/about.component";
+import local = chrome.storage.local;
 
 
 @Component({
@@ -88,21 +89,13 @@ export class ShorterComponent implements OnInit {
     this.load_services()
 
     let params: any = await getParams(this.routes)
-    this.url = params.url || localStorage.getItem("url") || "https://"
+    this.url = params.url || await this.chromeExt.get_local("url") || "https://"
     this.message = params.message || "Ce lien n'est plus disponible"
     if (params.instant) setTimeout(() => {
       this.short()
     }, 500)
 
 
-
-    if (chrome && chrome.storage) {
-      let res: any = await chrome.storage.local.get(["url"])
-      this.url = res.url || ""
-      if (this.url == "") this.url = await this.chromeExt.get_url("https://lemonde.fr");
-    } else {
-      this.url = this.routes.snapshot.queryParams["url"] || ""
-    }
 
     this.short_url = ""
 
@@ -135,24 +128,36 @@ export class ShorterComponent implements OnInit {
 
   async short()  {
     //Effectue la réduction
-    if (!this.url.startsWith("http")) this.url = "https://" + this.url
-    localStorage.setItem("url",this.url)
+    if(this.url){
+      if (!this.url.startsWith("http")) this.url = "https://" + this.url
+      this.chromeExt.set_local("url",this.url)
+    }
 
-    let values = await load_values(this.chromeExt)
+    let values = JSON.parse(await this.chromeExt.get_local("settings","{}"))
     for (let k in this.service_selected.data) {
-      if (this.service_selected.data[k] == "?" && values[k] == "") {
+      values[k]=values[k] || this.service_selected.data[k]
+      if (values[k] == "?") {
         showMessage(this, "Le champs " + k + " doit être renseigné pour utiliser le service " + this.service_selected.service, 4000, () => {
         }, "Ok")
         return;
       }
     }
+    if(this.service_selected.data.hasOwnProperty("network")){
+      //Si le réseau est requis pour le service on l'intialise dans values
+      values.network = values.network || "elrond-devnet"
+    }
 
-    values.network = values.network.value
+    if(this.service_selected.data.hasOwnProperty("domain")){
+      values.domain=this.service_selected.data.domain.replace("{{gate_server}}",environment.gate_server)
+    }
+
     let body = {
       url: this.url,
       service: this.service_selected.id,
       values: values
     }
+
+
     this.api.post(environment.shorter_service + "/api/add/", body, {responseType: "json"}).subscribe({
       next: (r: any) => {
         this.short_url = environment.shorter_service + "/" + r.cid
@@ -172,19 +177,23 @@ export class ShorterComponent implements OnInit {
 
 
   clear() {
+    this.url=""
+    this.chromeExt.set_local("url","")
     this.short_url = ""
   }
 
 
   async changeOperation($event: any) {
-    let values = await load_values(this.chromeExt)
+    let values = await load_values("settings",this.chromeExt,{})
     for (let f in values) {
       if(typeof(f)!='string')f=f[0];
-      this.service_selected.desc = this.service_selected.desc.replace("{{" + f + "}}", values[f])
+      this.service_selected.desc = this.service_selected.desc.replace("{{" + f + "}}", values[f]).replace("{{url}}",this.url)
     }
   }
 
   open_about() {
     this.router.navigate(["about"])
   }
+
+
 }

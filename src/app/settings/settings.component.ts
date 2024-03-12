@@ -84,7 +84,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let settings:any=await load_values(this.chromeExt)
+    let settings:any=await load_values("settings",this.chromeExt,{})
     this.quantity=settings.quantity
     this.token=settings.token
     this.collection=settings.collection

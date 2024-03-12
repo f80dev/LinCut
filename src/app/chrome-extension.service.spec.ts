@@ -4,6 +4,7 @@ import { ChromeExtensionService } from './chrome-extension.service';
 
 describe('ChromeExtensionService', () => {
   let service: ChromeExtensionService;
+  let chrome=null
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
@@ -11,6 +12,11 @@ describe('ChromeExtensionService', () => {
   });
 
   it('should be created', () => {
+    let obj={"key":"coucou"}
+    service.set_local("test",obj)
     expect(service).toBeTruthy();
+    expect(service.get_local("test")).toBe(obj)
   });
+
+
 });

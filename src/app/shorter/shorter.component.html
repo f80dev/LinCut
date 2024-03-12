@@ -20,7 +20,7 @@
       </mat-select>
       <mat-hint>sélectionner un filtre appliqué au visiteur du site / contenu</mat-hint>
     </mat-form-field>
-    <br><br>
+    <br>
 
 
     <mat-expansion-panel class="app-input-style">
@@ -56,22 +56,24 @@
 
   <div *ngIf="short_url!=''">
     <div class="mat-subtitle-1" style="margin-top: 10%;">
-      Votre lien à partager:<br>
+      L'utilisateur du lien:<br>
       <a [href]="short_url" target="_blank" class="mat-headline-6 color-primary">
         <strong>{{short_url}}</strong>
       </a>
-      <br><br>
+      <br>
+      <h5 style="margin-top:3px"></h5>
+      <p>{{service_selected.desc}}</p>
+      <br>
+
       <button mat-raised-button (click)="copy(short_url,'lien copié')">Copier</button>
       <button mat-raised-button (click)="share()" color="primary">Partager</button>
 
       <div *ngIf="qrcode">
         <br>
         <img [src]="qrcode" style="width: 200px;height:200px;display:inline-block;" (click)="copy(qrcode,'image copiée')"/>
-        <br>
       </div>
 
-      <br>
-      <mat-expansion-panel style="margin-top:100px;width:90%;display: inline-block;" *ngIf="environment.version>0.1">
+      <mat-expansion-panel style="margin-top:50px;width:90%;display: inline-block;" *ngIf="environment.version>0.1">
         <mat-expansion-panel-header>Mode avancé</mat-expansion-panel-header>
         <p style="line-height: 85%;">Pour garantir que votre contenu {{url}} ne soit accessible qu'en passant par votre filtre, insérez le script suivant dans sa page</p>
         <div class="mat-elevation-z8 codezone" >

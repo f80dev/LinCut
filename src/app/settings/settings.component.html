@@ -35,10 +35,11 @@
       <div style="display:inline-block;width: 91%;">
 
         <app-authent [network]="network.value"
-                     *ngIf="address==''"
+                     *ngIf="!address || address==''"
                      [walletconnect_open]="false"
                      [connexion]="option_connexion"
-                     (authent)="authent($event)"></app-authent><br>
+                     (authent)="authent($event)">
+        </app-authent><br>
 
       </div>
 
@@ -51,7 +52,7 @@
                  [value]="token" (valueChange)="token=$event"></app-input>
 
       <app-token-selector label_selected="Votre monnaie préférée"
-                          *ngIf="token==''"
+                          *ngIf="!token || token==''"
                           style="width: 350px;height: 250px;"
                           (valueChange)="token=$event.id"
                           [network]="network.value"></app-token-selector>

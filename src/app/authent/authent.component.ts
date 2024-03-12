@@ -1,6 +1,7 @@
 //Version 0.1
 import {Component, EventEmitter, Input, OnChanges,  OnInit, Output, SimpleChanges} from '@angular/core';
 import {NetworkService} from "../network.service";
+import { NativeAuthClient } from "@multiversx/sdk-native-auth-client";
 import {$$, eval_direct_url_xportal, isEmail, isLocal, now,  showError, showMessage} from "../../tools";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
@@ -30,6 +31,21 @@ import {MatButton} from "@angular/material/button";
 
 const config: SocketIoConfig = { url: environment.server, options: {} };
 
+
+enum Wallet_Operation {
+  Connect = "connect",
+  Logout = "logout",
+  SignTransactions = "signTransactions",
+  SignMessage = "signMessage",
+  CancelAction = "cancelAction",
+}
+
+interface IExtensionAccount {
+  address: string;
+  name?: string;
+  signature?: string;
+}
+
 @Component({
   selector: 'app-authent',
   templateUrl: './authent.component.html',
@@ -54,6 +70,8 @@ const config: SocketIoConfig = { url: environment.server, options: {} };
 })
 export class AuthentComponent implements OnInit,OnChanges {
 
+  account: IExtensionAccount = { address: "" };
+
   @Input() intro_message:string="";
   @Input() network:string="";
   @Input() connexion:Connexion={
@@ -70,6 +88,7 @@ export class AuthentComponent implements OnInit,OnChanges {
     web_wallet: false,
     webcam: false
   }
+
 
   @Input() paiement:{address:string, amount:number,description:string} | undefined;
 
@@ -294,7 +313,7 @@ export class AuthentComponent implements OnInit,OnChanges {
     //Se charge de retourner le message d'authentification réussi
     this.onauthent.emit({address:this.address,provider:this.provider,strong:this.strong,encrypted:this.private_key,url_direct_xportal_connect:this.url_xportal_direct_connect})
     if(this._operation && this._operation.validate?.actions.success && this._operation.validate?.actions.success.redirect.length>0)
-      open(this._operation.validate?.actions.success.redirect);
+      open(this._operation.validate.actions.success.redirect);
   }
 
 
@@ -422,21 +441,53 @@ export class AuthentComponent implements OnInit,OnChanges {
     return this.network.indexOf("devnet") ? "D" : "T"
   }
 
+  private startBgrMsgChannel(operation: string, connectData: any): Promise<any> {
+    //voir https://github.com/multiversx/mx-sdk-js-extension-provider/blob/main/src/extensionProvider.ts
+    return new Promise((resolve) => {
+      window.postMessage(
+        {target: "erdw-inpage",type: operation,data: connectData}, window.origin
+      );
+
+      const eventHandler = (event: any) => {
+        if (event.isTrusted && event.data.target === "erdw-contentScript") {
+          if (event.data.type === "connectResponse") {
+            if (event.data.data && Boolean(event.data.data.address)) {
+              this.account = event.data.data;
+            }
+            window.removeEventListener("message", eventHandler);
+            resolve(event.data.data);
+          } else {
+            window.removeEventListener("message", eventHandler);
+            resolve(event.data.data);
+          }
+        }
+      };
+      window.addEventListener("message", eventHandler, false);
+    });
+  }
+
+  async createNativeAuthInitialPart() {
+    const client = new NativeAuthClient({apiUrl: "https://devnet-api.multiversx.com", expirySeconds: 7200,});
+    return await client.initialize();
+  }
 
   async open_extension_wallet() {
     //https://docs.multiversx.com/sdk-and-tools/sdk-js/sdk-js-signing-providers/#the-extension-provider-multiversx-defi-wallet
     this.provider=ExtensionProvider.getInstance();
     let rc=await this.provider.init();
-    let address=await this.provider.login();
-    if(address.length>0){
-      this.strong=true;
-      this.validate(address);
-    } else {
+    try{
+      let address=await this.provider.login({ token: await this.createNativeAuthInitialPart() })
+      if(address.length>0){
+        this.strong=true;
+        this.validate(address);
+      } else {
+        this.strong=false;
+        this.oninvalid.emit(false);
+      }
+    } catch (e){
       this.strong=false;
       this.oninvalid.emit(false);
     }
-
-    //this.init_wallet.emit({provider:this.provider,address:this.address});
   }
 
   async open_web_wallet(){

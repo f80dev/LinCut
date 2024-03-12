@@ -2,14 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {DbtableComponent} from "../dbtable/dbtable.component";
 import {NetworkService} from "../network.service";
 import {environment} from "../../environments/environment";
-import {MatExpansionPanel} from "@angular/material/expansion";
+import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [
     DbtableComponent,
-    MatExpansionPanel
+    MatExpansionPanel,MatExpansionPanelHeader
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.css'
