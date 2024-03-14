@@ -16,6 +16,7 @@ export const environment = {
   company:"f80",
   version:0.12,
   connexion:{
+    xAlias:false,
     address: true,
     direct_connect: false,
     email: false,

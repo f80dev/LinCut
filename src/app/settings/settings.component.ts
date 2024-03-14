@@ -8,7 +8,7 @@ import {MatIcon} from "@angular/material/icon";
 import {Router, RouterModule} from "@angular/router";
 import {InputComponent} from "../input/input.component";
 import {AuthentComponent} from "../authent/authent.component";
-import {Connexion} from "../../operation";
+import {Connexion, get_default_connexion} from "../../operation";
 import {TokenSelectorComponent} from "../token-selector/token-selector.component";
 import {environment} from "../../environments/environment";
 import {load_values} from "../linkut";
@@ -16,7 +16,6 @@ import {CollectionSelectorComponent} from "../collection-selector/collection-sel
 import {MatButton} from "@angular/material/button";
 import {NetworkService} from "../network.service";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
-
 
 
 @Component({
@@ -39,13 +38,14 @@ export class SettingsComponent implements OnInit {
   token=""
   collection=""
   quantity=1
-  option_connexion: Connexion=environment.connexion
+  option_connexion: Connexion=environment.connexion || get_default_connexion()
   networks: any[]=[
     {value:"elrond-devnet",label:"DevNet multiversX"},
     {value:"elrond-mainnet",label:"MainNet multiversX"},
   ]
   network:any;
   unity="";
+  background="gray"
 
   constructor(public chromeExt:ChromeExtensionService,
               public api:NetworkService,
@@ -54,7 +54,7 @@ export class SettingsComponent implements OnInit {
   }
 
   save(){
-    if(this.token!=""){
+    if(this.token!="" && this.unity==""){
       this.api.get_token(this.token,this.network.value).subscribe((r:any)=>{
         if(r){
           this.unity=r.unity
@@ -73,7 +73,8 @@ export class SettingsComponent implements OnInit {
         quantity:this.quantity,
         token:this.token,
         network:this.network.value,
-        unity:this.unity
+        unity:this.unity,
+        background:this.background
       }
   )
     if(this.chromeExt){
@@ -88,6 +89,7 @@ export class SettingsComponent implements OnInit {
     this.quantity=settings.quantity
     this.token=settings.token
     this.collection=settings.collection
+    this.background=settings.background
     this.address=settings.address
     this.network={value:settings.network,label:settings.network}
   }
@@ -98,13 +100,7 @@ export class SettingsComponent implements OnInit {
     this.router.navigate(["shorter"])
   }
 
-  authent(evt: {
-    strong: boolean;
-    address: string;
-    provider: any;
-    encrypted: string;
-    url_direct_xportal_connect: string
-  }) {
+  authent(evt: { strong: boolean; address: string; provider: any; encrypted: string; url_direct_xportal_connect: string }) {
     this.address=evt.address
   }
 
@@ -113,6 +109,7 @@ export class SettingsComponent implements OnInit {
     this.address=""
     this.collection=""
     this.token=""
+    this.background="gray"
   }
 
   change_network(new_network:any) {

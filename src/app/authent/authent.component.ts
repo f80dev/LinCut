@@ -26,6 +26,7 @@ import {InputComponent} from "../input/input.component";
 import {MatIcon} from "@angular/material/icon";
 import {UploadFileComponent} from "../upload-file/upload-file.component";
 import {MatButton} from "@angular/material/button";
+import {XALIAS_PROVIDER_DEVNET, XALIAS_PROVIDER_MAINNET} from "@multiversx/sdk-web-wallet-provider/out";
 
 //Installation de @multiversx/sdk-wallet-connect-provider via yarn add @multiversx/sdk-wallet-connect-provider
 
@@ -75,6 +76,7 @@ export class AuthentComponent implements OnInit,OnChanges {
   @Input() intro_message:string="";
   @Input() network:string="";
   @Input() connexion:Connexion={
+    xAlias: false,
     address: false,
     direct_connect: true,
     email: false,
@@ -327,7 +329,18 @@ export class AuthentComponent implements OnInit,OnChanges {
     if(!isEmail(this.address) && !this.api.isElrond(this.address)){
       showMessage(this,"Pour l'instant, Le service n'est compatible qu'avec les adresses mail ou elrond");
     } else {
-      this.success();
+      if(isEmail(this.address)){
+        this.api.create_account(this.network,this.address,"","",{},true).subscribe({
+          next:(r:any)=>{
+            this.address=r.address
+            this.private_key=r.encrypt;
+            this.strong=true;
+          }
+        })
+      }else{
+        this.success();
+      }
+
     }
   }
 
@@ -467,8 +480,9 @@ export class AuthentComponent implements OnInit,OnChanges {
   }
 
   async createNativeAuthInitialPart() {
-    const client = new NativeAuthClient({apiUrl: "https://devnet-api.multiversx.com", expirySeconds: 7200,});
-    return await client.initialize();
+    const url=this.network.indexOf("devnet")>-1 ? "https://devnet-api.multiversx.com" : "https://api.multiversx.com"
+    const client = new NativeAuthClient({apiUrl: url, expirySeconds: 7200,});
+    return client.initialize();
   }
 
   async open_extension_wallet() {
@@ -490,15 +504,17 @@ export class AuthentComponent implements OnInit,OnChanges {
     }
   }
 
-  async open_web_wallet(){
+  async open_web_wallet(service="standard"){
     //tag webwallet open_webwallet
     //https://docs.multiversx.com/sdk-and-tools/sdk-js/sdk-js-signing-providers/#the-web-wallet-provider
-    this.provider=new WalletProvider(this.network.indexOf("devnet")>-1 ? WALLET_PROVIDER_DEVNET : WALLET_PROVIDER_MAINNET)
+    let connexion_mode=this.network.indexOf("devnet")>-1 ? WALLET_PROVIDER_DEVNET : WALLET_PROVIDER_MAINNET
+    if(service=="xAlias")connexion_mode=this.network.indexOf("devnet")>-1 ? XALIAS_PROVIDER_DEVNET : XALIAS_PROVIDER_MAINNET
+    this.provider=new WalletProvider(connexion_mode)
     this.provider.redirectDelayMilliseconds=30000
 
-    const callback_url = this.callback=="" ? encodeURIComponent(environment.appli+"/"+this._location.path(true)) : encodeURIComponent(this.callback)
+    const callback_url = this.callback=="" ? encodeURIComponent(this._location.path(true)) : encodeURIComponent(this.callback)
     try{
-      let address=await this.provider.login({callback_url})
+      let address=await this.provider.login({callback_url,token:await this.createNativeAuthInitialPart()})
       this.strong=address.length>0;
       if(this.strong){
         this.validate(address);

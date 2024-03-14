@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatButton} from "@angular/material/button";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
@@ -14,7 +14,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
-import {getParams, showError, showMessage} from "../../tools";
+import {$$, getParams, showError, showMessage} from "../../tools";
 import {load_values, save_value} from "../linkut";
 import {AboutComponent} from "../about/about.component";
 import local = chrome.storage.local;
@@ -40,7 +40,7 @@ import local = chrome.storage.local;
   styleUrl: './shorter.component.css'
 })
 
-export class ShorterComponent implements OnInit {
+export class ShorterComponent implements OnInit,OnDestroy {
   url = "";
   short_url: string = ""
   qrcode:string=""
@@ -81,9 +81,19 @@ export class ShorterComponent implements OnInit {
     }
 
     this.services = cache_service
-    this.service_selected = this.services[0]
+    this.service_selected = this.services[Number(await this.chromeExt.get_local("last_index","0"))]
   }
 
+  ngOnDestroy() {
+    debugger
+    let i=0
+    for(let s of this.services){
+      if(s.service==this.service_selected.service)break;
+      i++
+    }
+
+    this.chromeExt.set_local("last_index",i)
+  }
 
   async ngOnInit() {
     this.load_services()
@@ -96,11 +106,10 @@ export class ShorterComponent implements OnInit {
     }, 500)
 
 
-
     this.short_url = ""
 
     this.api.get(environment.shorter_service + "/api/services/").subscribe({
-      next: (services: any) => {
+      next: async (services: any) => {
         if (environment.mobile) {
           localStorage.setItem("services", services)
         } else {
@@ -108,7 +117,7 @@ export class ShorterComponent implements OnInit {
         }
         this.services = services
         let index = params.service ? Number(params.service) : 0
-        this.service_selected = services[index]
+        this.service_selected = this.services[Number(await this.chromeExt.get_local("last_index","0"))]
       }
     })
   }
@@ -151,12 +160,22 @@ export class ShorterComponent implements OnInit {
       values.domain=this.service_selected.data.domain.replace("{{gate_server}}",environment.gate_server)
     }
 
+    if(values.hasOwnProperty("background")){
+      if(values.background.startsWith("http")){
+        values["style"]="background-image:url('"+values.background+"');background-size:cover;"
+      }else{
+        values["style"]="background-color:"+values.background
+      }
+      delete values.background
+    }
+
+    $$("Propriété du raccourcis ",values)
+
     let body = {
       url: this.url,
       service: this.service_selected.id,
       values: values
     }
-
 
     this.api.post(environment.shorter_service + "/api/add/", body, {responseType: "json"}).subscribe({
       next: (r: any) => {
@@ -190,6 +209,7 @@ export class ShorterComponent implements OnInit {
       this.service_selected.desc = this.service_selected.desc.replace("{{" + f + "}}", values[f]).replace("{{url}}",this.url)
     }
   }
+
 
   open_about() {
     this.router.navigate(["about"])

@@ -64,24 +64,32 @@
                  [value]="collection" icon_action="visibility" (action)="open_spotlight($event)"
                  (valueChange)="collection=$event">
       </app-input>
+
       <!--  <app-collection-selector *ngIf="collection==''"-->
       <!--                           style="width:80%"-->
       <!--                           [network]="network.value"-->
       <!--                           (selected)="collection=$event.id"></app-collection-selector>-->
 
       <br><br>
-      <button mat-raised-button
-              (click)="open_spotlight()">
+      <button mat-raised-button (click)="open_spotlight()">
         Voir les collections
       </button>
 
     </mat-tab>
+    <mat-tab label="Visuel">
+      <br>
+      <app-input label="Fond d'écran" value_type="text"
+                 class="app-input-style"
+                 help="Peut être une image, une couleur, une page web"
+                 [value]="background" (valueChange)="background=$event"></app-input>
+
+    </mat-tab>
 
   </mat-tab-group>
+
   <br>
   <button mat-raised-button (click)="go_back()">
     Retour
   </button>
-
 
 </div>

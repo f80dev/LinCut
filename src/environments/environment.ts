@@ -8,8 +8,8 @@ export const environment = {
   appli:"linKut",
   appname:"linKut",
 
-  //shorter_service:"http://127.0.0.1:80",
-  shorter_service:"https://api.f80.fr",
+  shorter_service:"http://127.0.0.1:80",
+  //shorter_service:"https://api.f80.fr",
   server:"https://api.nfluent.io:4242",
   gate_server:"https://gate.nfluent.io/transfer",
   //gate_server:"http://127.0.0.1:4202/transfer",
@@ -20,6 +20,7 @@ export const environment = {
   version: 0.2,
   connexion:{
     address: true,
+    xAlias:false,
     direct_connect: false,
     email: true,
     extension_wallet: true,

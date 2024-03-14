@@ -42,9 +42,9 @@
 
     <br>
     <h5 style="margin-bottom:-3px">Traitement:</h5>
-    <p>{{service_selected.desc}}</p>
+    <p *ngIf="service_selected">{{service_selected.desc}}</p>
     <br>
-
+    <br>
     <button mat-raised-button (click)="open_settings()">
       Mes Paramètres
     </button>
