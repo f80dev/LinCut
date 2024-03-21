@@ -38,6 +38,7 @@
               "src/manifest.json",
               "src/background.js",
               "src/404.html",
+              "src/test.html",
               "src/CNAME",
               "src/manifest.webmanifest"
             ],
@@ -50,6 +51,9 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "extractLicenses": false,
+              "sourceMap": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -90,7 +94,10 @@
                   "maximumError": "400kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "optimization": true,
+              "extractLicenses": false,
+              "sourceMap": false
             },
             "development": {
               "optimization": false,

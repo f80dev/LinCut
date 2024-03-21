@@ -64,67 +64,49 @@ export class ShorterComponent implements OnInit,OnDestroy {
 
 
   async load_services() {
-    const service_redirect = {service: "redirection", data: {}}
-    let cache_service: any[] = [service_redirect]
-    if (chrome && chrome.storage) {
-      let rep = await chrome.storage.local.get(["services"])
-      if (rep) {
-        cache_service = JSON.parse(rep[0])
-      }
-    } else {
-      try {
-        if (localStorage.getItem("services")) cache_service = JSON.parse(localStorage.getItem("services") || "[]")
-      } catch (e) {
+    return new Promise(async (resolve)=> {
 
-      }
-
-    }
-
-    this.services = cache_service
-    this.service_selected = this.services[Number(await this.chromeExt.get_local("last_index","0"))]
+      this.api.get(environment.shorter_service + "/api/services/").subscribe({
+        next: async (services: any) => {
+          $$("Lecture des services depuis "+environment.shorter_service)
+          this.chromeExt.set_local("services",JSON.stringify(services))
+          this.services = services
+          resolve(services)
+        },
+        error:async ()=>{
+          $$("Erreur de lecture des services sur le serveur, usage du cache")
+          let cache_service = await this.chromeExt.get_local("services","[]")
+          this.services = JSON.parse(cache_service)
+          resolve(this.services)
+        }
+      })
+    })
   }
 
   ngOnDestroy() {
-    debugger
-    let i=0
-    for(let s of this.services){
-      if(s.service==this.service_selected.service)break;
-      i++
-    }
-
-    this.chromeExt.set_local("last_index",i)
+    this.save_values()
   }
 
   async ngOnInit() {
-    this.load_services()
+    await this.load_services()
 
     let params: any = await getParams(this.routes)
-    this.url = params.url || await this.chromeExt.get_local("url") || "https://"
+    this.url = params.url || await this.chromeExt.get_url() || await this.chromeExt.get_local("url") || "https://"
     this.message = params.message || "Ce lien n'est plus disponible"
     if (params.instant) setTimeout(() => {
       this.short()
     }, 500)
 
-
-    this.short_url = ""
-
-    this.api.get(environment.shorter_service + "/api/services/").subscribe({
-      next: async (services: any) => {
-        if (environment.mobile) {
-          localStorage.setItem("services", services)
-        } else {
-          chrome.storage.local.set({services: services})
-        }
-        this.services = services
-        let index = params.service ? Number(params.service) : 0
-        this.service_selected = this.services[Number(await this.chromeExt.get_local("last_index","0"))]
-      }
-    })
+    if(this.services.length>0){
+      let index = params.hasOwnProperty("service") ? Number(params.service) : Number(await this.chromeExt.get_local("last_index","0"))
+      this.service_selected = index<this.services.length ? this.services[index] : this.services[0]
+      this.short_url = ""
+    }
   }
 
 
   async copy(toCopy:string,message="") {
-    await navigator.clipboard.writeText(toCopy)
+    await navigator.clipboard.writeText(toCopy.replace("\n"," ").replace("\t"," "))
     showMessage(this,message)
 
   }
@@ -134,30 +116,47 @@ export class ShorterComponent implements OnInit,OnDestroy {
     await navigator.share({url: this.short_url})
   }
 
+  save_values(){
+    $$("Enregistrement des values")
+    this.chromeExt.set_local("url",this.url)
 
+    let i=0
+    for(let s of this.services){
+      if(s.service==this.service_selected.service)break;
+      i++
+    }
+    this.chromeExt.set_local("last_index",i)
+  }
+
+
+  //_______________________________________________________________________________________________________________________
   async short()  {
     //Effectue la réduction
+    debugger
     if(this.url){
       if (!this.url.startsWith("http")) this.url = "https://" + this.url
-      this.chromeExt.set_local("url",this.url)
+      this.save_values()
+    } else {
+      showMessage(this,"L'url de destination doit être renseignée")
     }
 
+    $$("Travail sur les parametres")
     let values = JSON.parse(await this.chromeExt.get_local("settings","{}"))
-    for (let k in this.service_selected.data) {
-      values[k]=values[k] || this.service_selected.data[k]
+    for (let k in this.service_selected.params) {
+      values[k]=values[k] || this.service_selected.params[k]
       if (values[k] == "?") {
         showMessage(this, "Le champs " + k + " doit être renseigné pour utiliser le service " + this.service_selected.service, 4000, () => {
         }, "Ok")
         return;
       }
     }
-    if(this.service_selected.data.hasOwnProperty("network")){
+    if(this.service_selected.params.hasOwnProperty("network")){
       //Si le réseau est requis pour le service on l'intialise dans values
       values.network = values.network || "elrond-devnet"
     }
 
-    if(this.service_selected.data.hasOwnProperty("domain")){
-      values.domain=this.service_selected.data.domain.replace("{{gate_server}}",environment.gate_server)
+    if(this.service_selected.params.hasOwnProperty("target")){
+      values.target=values.target.replace("{{url}}",this.url)
     }
 
     if(values.hasOwnProperty("background")){
@@ -168,21 +167,22 @@ export class ShorterComponent implements OnInit,OnDestroy {
       }
       delete values.background
     }
-
-    $$("Propriété du raccourcis ",values)
+    values["service"]=this.service_selected.id
 
     let body = {
-      url: this.url,
-      service: this.service_selected.id,
+      url: this.service_selected.url.replace("{{gate_server}}",environment.gate_server),
       values: values
     }
+    $$("objet pour raccourcir et filtrer url="+this.url,body)
+
 
     this.api.post(environment.shorter_service + "/api/add/", body, {responseType: "json"}).subscribe({
       next: (r: any) => {
         this.short_url = environment.shorter_service + "/" + r.cid
         this.qrcode=environment.server+"/api/qrcode/?code="+encodeURIComponent(this.short_url)
-        this.code="p={};\nfor (const [key, value] of new URLSearchParams(location.search).entries()) {\np[key] = value;}\n" +
-          "        if(!p.code)location.url='"+this.short_url+"'"
+        this.code="<script>\n" +
+          "if(!document.referrer.startsWith('"+environment.gate_server+"'))\nlocation.href='"+this.short_url+
+        "'\n</script>"
       },
       error: (err) => {
         this.toast.open("Problème de traitement de l'url, veuillez recommencer")
@@ -197,7 +197,7 @@ export class ShorterComponent implements OnInit,OnDestroy {
 
   clear() {
     this.url=""
-    this.chromeExt.set_local("url","")
+    //this.chromeExt.set_local("url","")
     this.short_url = ""
   }
 
@@ -206,7 +206,9 @@ export class ShorterComponent implements OnInit,OnDestroy {
     let values = await load_values("settings",this.chromeExt,{})
     for (let f in values) {
       if(typeof(f)!='string')f=f[0];
-      this.service_selected.desc = this.service_selected.desc.replace("{{" + f + "}}", values[f]).replace("{{url}}",this.url)
+      if(this.service_selected && this.service_selected.description){
+        this.service_selected.description = this.service_selected.description.replace("{{" + f + "}}", values[f]).replace("{{url}}",this.url)
+      }
     }
   }
 

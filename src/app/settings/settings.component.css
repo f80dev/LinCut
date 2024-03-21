@@ -23,3 +23,8 @@ app-token-selector {
   display: inline-block;
   width:90%;
 }
+
+.no-scroll-bar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

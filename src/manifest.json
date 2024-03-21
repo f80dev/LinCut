@@ -1,7 +1,7 @@
 {
   "name": "LinKut",
   "version": "0.1.0",
-  "description": "Raccourcir des urls",
+  "description": "Filtrage des urls",
   "manifest_version": 3,
   "author": "hhoareau@gmail.com",
   "action": {

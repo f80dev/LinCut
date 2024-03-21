@@ -13,8 +13,8 @@ import {environment} from "../environments/environment";
 })
 export class AppComponent implements OnInit {
   title = 'linKut';
-  height: string ="450px";
-  width: string="350px";
+  height: string ="950px";
+  width: string="450px";
 
   ngOnInit(): void {
     this.height=environment.height

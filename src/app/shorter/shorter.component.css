@@ -9,6 +9,9 @@ button {
 
 mat-hint {
   opacity: 0.8;
+  font-size: small;
+  font-weight: lighter;
+  line-height: 85%;
 }
 
 .app-input-style {
@@ -25,13 +28,13 @@ a {
 .codezone {
   text-align: left;
   padding:10px;
-  font-size: medium;
+  font-size: small;
   overflow: hidden;
   background-color: black;
-  line-height: 105%;
+  line-height: 120%;
   color: greenyellow;
   width:80%;
   display:inline-block;
-  height:150px;
-  font-family: 'Times New Roman' ,serif
+  height:100px;
+  font-family: 'Courier' ,serif;
 }

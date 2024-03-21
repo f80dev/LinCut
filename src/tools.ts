@@ -321,7 +321,7 @@ export function apply_params(vm:any,params:any,env:any={}){
   }
 
   if(vm.hasOwnProperty("network")){
-    if(typeof vm.network=="string")vm.network = params.networks || env.network || "elrond-devnet"
+    if(typeof vm.network=="string")vm.network = params.network || env.network || "elrond-devnet"
   }
   if(params.hasOwnProperty("advanced_mode"))vm.advanced_mode=(params.advanced_mode=='true');
 
@@ -370,7 +370,9 @@ export function getParams(routes:ActivatedRoute,local_setting_params="",force_tr
 
         if(ps){
           if(ps.hasOwnProperty("b")){
-            resolve(JSON.parse(decrypt(ps.b)))
+            let rc=JSON.parse(decrypt(ps.b))
+            $$("Lecture des paramètres ",rc)
+            resolve(rc)
           }
           if(ps.hasOwnProperty("p")){
             let temp:any=analyse_params(decodeURIComponent(ps["p"]));

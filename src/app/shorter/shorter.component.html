@@ -13,12 +13,12 @@
     <br>
 
 
+
     <mat-form-field class="app-input-style">
-      <mat-label>Conditions d'accès</mat-label>
+      <mat-label>Condition d'accès</mat-label>
       <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus (valueChange)="changeOperation($event)">
         <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
       </mat-select>
-      <mat-hint>sélectionner un filtre appliqué au visiteur du site / contenu</mat-hint>
     </mat-form-field>
     <br>
 
@@ -42,13 +42,14 @@
 
     <br>
     <h5 style="margin-bottom:-3px">Traitement:</h5>
-    <p *ngIf="service_selected">{{service_selected.desc}}</p>
+    <p *ngIf="service_selected">{{service_selected.description}}</p>
     <br>
     <br>
     <button mat-raised-button (click)="open_settings()">
       Mes Paramètres
     </button>
-    <button mat-raised-button (click)="short()" color="primary" *ngIf="url!=''">
+    <button mat-raised-button (click)="short()"
+            color="primary" *ngIf="url!=''">
       Appliquer le traitement
     </button>
   </div>
@@ -62,7 +63,7 @@
       </a>
       <br>
       <h5 style="margin-top:3px"></h5>
-      <p>{{service_selected.desc}}</p>
+      <p *ngIf="service_selected">{{service_selected.description}}</p>
       <br>
 
       <button mat-raised-button (click)="copy(short_url,'lien copié')">Copier</button>

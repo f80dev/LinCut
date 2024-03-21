@@ -35,7 +35,7 @@ export class ChromeExtensionService {
 
 
 
-  get_local(key: string,_default="") : Promise<string> {
+  async get_local(key: string,_default="") : Promise<string> {
     return new Promise<any>((resolve) => {
       if(chrome && chrome.storage) {
         chrome.storage.local.get(key, (item: any) => {
