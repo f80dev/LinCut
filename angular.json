@@ -95,9 +95,9 @@
                 }
               ],
               "outputHashing": "all",
-              "optimization": true,
+              "optimization": false,
               "extractLicenses": false,
-              "sourceMap": false
+              "sourceMap": true
             },
             "development": {
               "optimization": false,

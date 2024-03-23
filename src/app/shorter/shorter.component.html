@@ -16,7 +16,7 @@
 
     <mat-form-field class="app-input-style">
       <mat-label>Condition d'accès</mat-label>
-      <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus (valueChange)="changeOperation($event)">
+      <mat-select required value="redirect" [(ngModel)]="service_selected" autofocus (valueChange)="changeOperation()">
         <mat-option *ngFor="let service of services" [value]="service">{{service.service}}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -71,10 +71,10 @@
 
       <div *ngIf="qrcode">
         <br>
-        <img [src]="qrcode" style="width: 200px;height:200px;display:inline-block;" (click)="copy(qrcode,'image copiée')"/>
+        <img [src]="qrcode" style="width: 150px;height:150px;display:inline-block;" (click)="copy(qrcode,'image copiée')"/>
       </div>
 
-      <mat-expansion-panel style="margin-top:50px;width:90%;display: inline-block;" *ngIf="environment.version>0.1">
+      <mat-expansion-panel style="margin-top:10px;width:90%;display: inline-block;" *ngIf="environment.version>0.1">
         <mat-expansion-panel-header>Mode avancé</mat-expansion-panel-header>
         <p style="line-height: 85%;">Pour garantir que votre contenu {{url}} ne soit accessible qu'en passant par votre filtre, insérez le script suivant dans sa page</p>
         <div class="mat-elevation-z8 codezone" >

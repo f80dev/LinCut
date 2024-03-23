@@ -89,9 +89,9 @@ export class ShorterComponent implements OnInit,OnDestroy {
 
   async ngOnInit() {
     await this.load_services()
-
     let params: any = await getParams(this.routes)
-    this.url = params.url || await this.chromeExt.get_url() || await this.chromeExt.get_local("url") || "https://"
+    try{this.url=await this.chromeExt.get_url()} catch (e) {}
+    if(!this.url)this.url = params.url || await this.chromeExt.get_local("url") || "https://"
     this.message = params.message || "Ce lien n'est plus disponible"
     if (params.instant) setTimeout(() => {
       this.short()
@@ -100,6 +100,7 @@ export class ShorterComponent implements OnInit,OnDestroy {
     if(this.services.length>0){
       let index = params.hasOwnProperty("service") ? Number(params.service) : Number(await this.chromeExt.get_local("last_index","0"))
       this.service_selected = index<this.services.length ? this.services[index] : this.services[0]
+      this.changeOperation()
       this.short_url = ""
     }
   }
@@ -202,10 +203,10 @@ export class ShorterComponent implements OnInit,OnDestroy {
   }
 
 
-  async changeOperation($event: any) {
+  async changeOperation()  {
     let values = await load_values("settings",this.chromeExt,{})
     for (let f in values) {
-      if(typeof(f)!='string')f=f[0];
+      if(typeof(f)=='object')f=f[0];
       if(this.service_selected && this.service_selected.description){
         this.service_selected.description = this.service_selected.description.replace("{{" + f + "}}", values[f]).replace("{{url}}",this.url)
       }

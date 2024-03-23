@@ -16,6 +16,8 @@ import {CollectionSelectorComponent} from "../collection-selector/collection-sel
 import {MatButton} from "@angular/material/button";
 import {NetworkService} from "../network.service";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
+import {get_images_from_banks} from "../../tools";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -28,7 +30,8 @@ import {MatTab, MatTabGroup} from "@angular/material/tabs";
     NgIf,
     ReactiveFormsModule,
     FormsModule,
-    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent, CollectionSelectorComponent, MatButton, MatTabGroup, MatTab
+    MatIcon, InputComponent, AuthentComponent, TokenSelectorComponent,
+    CollectionSelectorComponent, MatButton, MatTabGroup, MatTab
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
@@ -49,6 +52,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(public chromeExt:ChromeExtensionService,
               public api:NetworkService,
+              public dialog:MatDialog,
               public router:Router) {
     setTimeout(()=>{this.network=this.networks[0]},100)
   }
@@ -129,4 +133,11 @@ export class SettingsComponent implements OnInit {
     if(this.network.value=="elrond-devnet")url=url.replace("xspotlight","devnet.xspotlight")
     open(url,"spotlight")
   }
+
+
+  async call_picture(prop:any) {
+    let images=await get_images_from_banks(this,this.api,"",false,1)
+    if(images.length>0)this.background=images[0].image
+  }
+
 }

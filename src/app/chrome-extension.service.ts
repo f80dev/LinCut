@@ -42,6 +42,7 @@ export class ChromeExtensionService {
           resolve(item[key] || _default)
         })
       }else{
+
         resolve(localStorage.getItem(key) || _default)
       }
     })

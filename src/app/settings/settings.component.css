@@ -25,6 +25,7 @@ app-token-selector {
 }
 
 .no-scroll-bar {
+  overflow: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
