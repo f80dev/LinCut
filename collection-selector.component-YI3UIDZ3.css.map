@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/collection-selector/collection-selector.component.css"],
+  "sourcesContent": [".image-title {\r\n    position: absolute;\r\n    left: 5px;\r\n    top: 10px;\r\n    font-size: 80px;\r\n    font-weight: bold;\r\n    text-overflow: ellipsis;\r\n    width: 95%;\r\n    text-shadow: 1px 1px 2px black;\r\n}\r\n"],
+  "mappings": ";AAAA,CAAC;AACG,YAAU;AACV,QAAM;AACN,OAAK;AACL,aAAW;AACX,eAAa;AACb,iBAAe;AACf,SAAO;AACP,eAAa,IAAI,IAAI,IAAI;AAC7B;",
+  "names": []
+}

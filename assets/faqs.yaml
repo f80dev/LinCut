@@ -1,0 +1,46 @@
+#ce fichier contient les FAQ de Data Culture
+#il est au format YAML (format texte lisible à la fois par un ordinateur et par un humain)
+#Il existe plusieurs éditeurs de ce type de fichier et notamment notepad++ disponible ici : https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.6/npp.8.6.Installer.x64.exe
+
+
+
+
+#Entete du fichier contenant des informations sur la version de la FAQ
+#date et version simplifie la gestion éventuelle de plusieurs versions de FAQ
+version: 1.0
+date: 01/01/2024
+test: http://server.f80.fr/api/faqs
+
+
+#la rubrique "content' va contenir l'ensemble des FAQ sous forme d'une liste (au sens YAML)
+#chaque faq contient différents champs:
+#- index (obligatoire) est une chaine de caractères sans espace. il doit être unique. il peut être utilisé au sein de l'interface client pour directement renvoyer vers une FAQ
+#- tags (non obligatoire) va permettre de mettre en place un filtrage éventuel sur mot clé (fonctionnalité non utilisée actuellement dans Data Culture)
+#- title contient le titre de la FAQ idéalement sous forme d'une question
+#- order (non obligatoire) permet d'ordonner l'affiuchage des faq (plus la valeur est faible plus la FAQ est haute sur la page)
+#- content peut être du texte simple, de l'HTML ou directement désigner une page HTML sur le web via son URL. Etant souvent sur plusieurs lignes il est préférable de l'encadrer par des "
+#- format est optionnel et par défaut à txt, il peut être à HTML si 'content\" contient des balises
+
+#des champs dynamiques {{appname}} sont remplacé par le nom de l'application (ici Data Culture=
+
+#Pour rappel sur le langage HTML pour la rubrique content.
+# - les balises <p> ... </p> encadre un paragraphe (avec saut de ligne avant et après)
+# - la balise <br> ajoute un saut à la ligne
+# - les balises <ul></ul> encadre une liste a puces. Chaque élément de la liste doit être encadré par <li></li>
+content:
+  - index: shortener
+    tags:
+    title: Qu'est ce qu'une url courte ?
+    order: 0
+    format: html
+    content: Une url courte désigne une adresse internet dont le nombre de caractères est faible. L'url courte peut être facilement insérer dans des messages dont le nombre de caractères est limité (comme X ou un SMS)
+
+
+  - index: shortener_app
+    tags:
+    title: Qu'est ce qu'un raccourcisseur d'url
+    order: 0
+    format: html
+    content: Un raccourcisseur d'url est un programme qui remplace une url longue par une url plus courte renvoyant vers cette url longue.
+
+
