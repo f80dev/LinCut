@@ -30,5 +30,6 @@ export const environment = {
     wallet_connect: true,
     web_wallet: false,
     webcam: false
-  }
+  },
+  max_file_size:1000000
 }
