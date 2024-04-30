@@ -38,9 +38,9 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class SettingsComponent implements OnInit {
   address=""
-  token=""
+  token="egld"
   collection=""
-  quantity=1
+  quantity=0.1
   option_connexion: Connexion=environment.connexion || get_default_connexion()
   networks: any[]=[
     {value:"elrond-devnet",label:"DevNet multiversX"},

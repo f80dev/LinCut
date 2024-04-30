@@ -18,7 +18,7 @@ export const environment = {
   website:"https://f80.fr",
   faqs:"https://linkut.f80.fr/assets/faqs.yaml",
   company:"f80",
-  version: 0.2,
+  version: 0.21,
   connexion:{
     address: true,
     xAlias:false,
@@ -33,5 +33,6 @@ export const environment = {
     wallet_connect: true,
     web_wallet: false,
     webcam: false
-  }
+  },
+  max_file_size:1000000
 }

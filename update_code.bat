@@ -32,6 +32,7 @@ xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\hourglass\*.*  src\app\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\scanner\*.*  src\app\scanner\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\app\upload-file\*.*  src\app\upload-file\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\create.ts src\
+xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\crypto.ts src\
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\operation.ts src\
 
 xcopy /f /y C:\Users\hhoar\IdeaProjects\NFTCalvi\src\tools.ts src\

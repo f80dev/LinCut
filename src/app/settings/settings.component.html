@@ -15,20 +15,20 @@
              [value]="quantity" (valueChange)="quantity=$event"></app-input>
 
 
-  <mat-tab-group [dynamicHeight]="true" style="width: 92%;margin:3%;" class="mat-elevation-z8" *ngIf="network">
+  <mat-tab-group [dynamicHeight]="true" style="width: 92%;margin:3%;height:600px;" class="mat-elevation-z8" *ngIf="network">
     <mat-tab label="Wallet" class="no-scroll-bar">
-      <p style="margin-top: 5px;">Un wallet peut être utilisé dans les services de facturation pour percevoir les paiements</p>
+      <p style="margin-top: 20px;">Un wallet peut être utilisé dans les services de facturation pour percevoir les paiements</p>
+
       <app-input label="Une adresse de wallet"
+                 style="width:83%;display: inline-block;"
                  class="app-input-style"
                  value_type="text" [value]="address"
                  (valueChange)="address=$event;">
       </app-input>
 
-      <div style="display:inline-block;width: 91%;margin-top: -8px;">
-
+      <div style="display:inline-block;width: 91%;" *ngIf="!address || address==''">
         <app-authent [network]="network.value"
                      size="120px"
-                     *ngIf="!address || address==''"
                      [walletconnect_open]="false"
                      [connexion]="option_connexion"
                      (authent)="authent($event)">
@@ -44,11 +44,13 @@
                  help="" icon_action="visibility" (action)="open_explorer($event)"
                  [value]="token" (valueChange)="token=$event"></app-input>
 
-      <app-token-selector label_selected="Votre monnaie préférée"
-                          *ngIf="!token || token==''"
-                          style="width: 350px;height: 250px;"
-                          (valueChange)="token=$event.id"
-                          [network]="network.value"></app-token-selector>
+      <div style="width: 350px;height: 250px;display:inline-block;overflow:hidden;" *ngIf="!token || token==''">
+        <app-token-selector label_selected="Votre monnaie préférée"
+
+                            (valueChange)="token=$event.id"
+                            [network]="network.value">
+        </app-token-selector>
+      </div>
 
       <br><br>
 
@@ -63,7 +65,7 @@
       <!--                           [network]="network.value"-->
       <!--                           (selected)="collection=$event.id"></app-collection-selector>-->
 
-      <br><br>
+      <br>
       <button mat-raised-button (click)="open_spotlight()">
         Voir les collections
       </button>
@@ -77,6 +79,9 @@
                  (action)="call_picture($event)" icon_action="photo"
                  [value]="background" (valueChange)="background=$event"></app-input>
 
+      <img [src]="background" style="width: 300px;height:200px;display:inline;"
+           class="mat-elevation-z4"
+           *ngIf="background && background.startsWith('http')">
     </mat-tab>
 
   </mat-tab-group>

@@ -2,7 +2,7 @@
 import {Component, EventEmitter, Input, OnChanges,  OnInit, Output, SimpleChanges} from '@angular/core';
 import {NetworkService} from "../network.service";
 import { NativeAuthClient } from "@multiversx/sdk-native-auth-client";
-import {$$, eval_direct_url_xportal, isEmail, isLocal, now,  showError, showMessage} from "../../tools";
+import {$$, isEmail, isLocal, now,  showError, showMessage} from "../../tools";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {environment} from "../../environments/environment";
 import {Location, NgIf} from "@angular/common";
@@ -14,7 +14,7 @@ import {DeviceService} from "../device.service";
 import { WalletConnectV2Provider } from "@multiversx/sdk-wallet-connect-provider";
 import { ExtensionProvider } from "@multiversx/sdk-extension-provider";
 import {WALLET_PROVIDER_DEVNET, WALLET_PROVIDER_MAINNET, WalletProvider} from "@multiversx/sdk-web-wallet-provider";
-import {Socket, SocketIoConfig, SocketIoModule} from "ngx-socket-io";
+import {Socket, SocketIoConfig} from "ngx-socket-io";
 import {EvmWalletServiceService} from "../evm-wallet-service.service";
 import {_prompt} from "../prompt/prompt.component";
 import {MatDialog} from "@angular/material/dialog";
@@ -27,6 +27,7 @@ import {MatIcon} from "@angular/material/icon";
 import {UploadFileComponent} from "../upload-file/upload-file.component";
 import {MatButton} from "@angular/material/button";
 import {XALIAS_PROVIDER_DEVNET, XALIAS_PROVIDER_MAINNET} from "@multiversx/sdk-web-wallet-provider/out";
+import {eval_direct_url_xportal} from "../../crypto";
 
 //Installation de @multiversx/sdk-wallet-connect-provider via yarn add @multiversx/sdk-wallet-connect-provider
 

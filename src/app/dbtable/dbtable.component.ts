@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {HttpClient} from "@angular/common/http"
-import {NetworkService} from "../network.service";
 import {MatDialog} from "@angular/material/dialog";
 import {_prompt} from "../prompt/prompt.component";
 import {MatIcon} from "@angular/material/icon";
@@ -18,6 +17,7 @@ import {NgForOf, NgIf} from "@angular/common";
 import {Clipboard} from "@angular/cdk/clipboard";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {showMessage} from "../../tools";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-dbtable',
@@ -55,7 +55,6 @@ export class DbtableComponent implements OnInit,OnChanges {
 
   constructor(
     public httpClient:HttpClient,
-    public network:NetworkService,
     public dialog:MatDialog,
     public clipboard:Clipboard,
     public toast:MatSnackBar
@@ -86,7 +85,7 @@ export class DbtableComponent implements OnInit,OnChanges {
   refresh(){
     if(this.source=="db"){
       if(this.title.length==0)this.title=this.table;
-      this.httpClient.get(this.network.server_nfluent+"/api/tables/"+this.table+"?excludes="+this.excludes).subscribe((rows:any)=>{
+      this.httpClient.get(environment.server+"/api/tables/"+this.table+"?excludes="+this.excludes).subscribe((rows:any)=>{
         this.rows=rows;
         if(this.cols.length==0){
           for(let k in this.rows[0]){
@@ -119,7 +118,7 @@ export class DbtableComponent implements OnInit,OnChanges {
     let rep=await _prompt(this,"Confirmer l'effacement","","","oui/non","Effacer tout","Annuler",true);
 
     if(rep=="yes" && this.source!="local"){
-      this.httpClient.delete(this.network.server_nfluent+"/api/tables/"+this.table).subscribe(()=>{
+      this.httpClient.delete(environment.server+"/api/tables/"+this.table).subscribe(()=>{
         this.refresh();
       })
     }

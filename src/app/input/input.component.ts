@@ -1,5 +1,5 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Component, EventEmitter, Inject, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
 import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
@@ -9,6 +9,14 @@ import {MatListOption, MatSelectionList} from "@angular/material/list";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatInputModule} from "@angular/material/input";
 import {MatButton} from "@angular/material/button";
+import {
+  MatDatepickerModule,
+  MatDatepickerToggle,
+  MatDateRangeInput,
+  MatDateRangePicker
+} from "@angular/material/datepicker";
+import { MAT_DATE_LOCALE, provideNativeDateAdapter} from "@angular/material/core";
+import {parseFrenchDate} from "../../tools";
 //version 1.0 3/3/23
 
 @Component({
@@ -32,26 +40,34 @@ import {MatButton} from "@angular/material/button";
     ReactiveFormsModule,
     MatButton,
     NgForOf,
-    MatSliderThumb
+    MatSliderThumb,
+    MatDatepickerToggle,
+    MatDatepickerModule,
+    MatDateRangeInput,
+    MatDateRangePicker
+  ],
+  providers: [
+      provideNativeDateAdapter(),
+      {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'},
   ],
   templateUrl: './input.component.html',
   styleUrls: ['./input.component.scss']
 })
 export class InputComponent implements OnChanges,OnInit {
-  @Input() infobulle:string="";
-  @Input() label:string="";
-  @Input() color:string="black";
+  @Input() infobulle:string=""
+  @Input() label:string=""
+  @Input() color:string="black"
 
-  @Input() label_button:string="";
-  @Input() cancel_button:string="";
+  @Input() label_button:string=""
+  @Input() cancel_button:string=""
 
   @Input() maxlength:string=""
-  @Input() width:string="100%";
-  @Input() maxwidth:string="100%";
-  @Input() color_value="darkgray";
-  @Input() size_image="40px";
-  @Input() icon_action="";
-  @Input() filter="";
+  @Input() width:string="100%"
+  @Input() maxwidth:string="100%"
+  @Input() color_value="darkgray"
+  @Input() size_image="40px"
+  @Input() icon_action=""
+  @Input() filter=""
 
 
   @Input() options:any=[];
@@ -69,7 +85,7 @@ export class InputComponent implements OnChanges,OnInit {
   @Output() action=new EventEmitter();
   @Output() cancel=new EventEmitter();
 
-  @Input() value_type:"text" | "number" | "memo" | "list" | "listimages" | "boolean" | "images" | "slide" | "slider" = "text";
+  @Input() value_type:"text" | "time" | "date" | "daterange" | "number" | "memo" | "list" | "listimages" | "boolean" | "images" | "slide" | "slider" = "text";
   @Input() help:string="";
   @Input() help_input: string="";
   @Input() help_button: string="Enregistrez";
@@ -85,9 +101,17 @@ export class InputComponent implements OnChanges,OnInit {
   @Input() fontname="mat-body-2"
   @Input() height="200px"
   @Input() unity: string="";
+  @Input() init: string="";
+  range= new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
+  date_control= new FormControl(new Date());
 
 
-  constructor() { }
+  constructor( @Inject(MAT_DATE_LOCALE) private _locale: string,) {
+    this._locale = 'fr';
+  }
 
   on_clear() {
     this.value=null;
@@ -102,10 +126,18 @@ export class InputComponent implements OnChanges,OnInit {
   }
 
   on_key($event: any) {
-    if($event.key=='Enter')
-      this.on_validate();
-    else
-      this.valueChange.emit(this.value);
+    if(this.value_type=="daterange"){
+      this.valueChange.emit(this.range.value);
+    }else{
+      if($event.key=='Enter'){
+        this.on_validate();
+      } else {
+        this.valueChange.emit(this.value);
+      }
+
+    }
+
+
   }
 
   sel_change($event: any) {
@@ -131,6 +163,22 @@ export class InputComponent implements OnChanges,OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    if(this.value_type=="daterange"){
+      if(changes["value"]){
+        let values=changes["value"].currentValue.split(" - ")
+        let start=parseFrenchDate(values[0])
+        let end=parseFrenchDate(values[1])
+        this.range.setValue({start: start, end: end  })
+        this.valueChange.emit({start:start,end:end});
+      }
+    }
+
+    if(this.value_type=="date"){
+      if(changes["value"]){
+        this.value.setValue(parseFrenchDate(changes["value"].currentValue))
+      }
+    }
+
     if(this.value_type=="list" || this.value_type=="listimages" || this.value_type=="images") {
       if(changes["value"]){
         if(this.value_field==""){
@@ -146,6 +194,18 @@ export class InputComponent implements OnChanges,OnInit {
           }
         }
       }
+
+      if(changes["filter"]){
+        let filter=changes["filter"].currentValue
+        let options=[]
+        for(let option of this.options){
+          if(filter=="" || (option && option.label && option.label.indexOf(this.filter)>-1)){
+            options.push(option)
+          }
+        }
+        this.options=options
+      }
+
 
       if(changes["options"]){
         if (typeof (changes["options"].currentValue) == "string") { // @ts-ignore
@@ -164,7 +224,6 @@ export class InputComponent implements OnChanges,OnInit {
               // }
             }
             //TODO: a analyser
-            //thif(this.label.indexOf(option)>-1)
             this.options.push(option);
           }
         }
@@ -172,11 +231,16 @@ export class InputComponent implements OnChanges,OnInit {
 
     }
   }
-
   ngOnInit(): void {
     if(typeof(this.options)=="string")this.options=this.options.split(",")
     if(this.options.length>0){this.value_type="list";}
     if(this.rows>0 && this.cols==0)this.cols=10;
+    if(this.value_type=="daterange"){
+      this.range== new FormGroup({
+        start: new FormControl<Date | null>(parseFrenchDate(this.value.split(" - ")[0])),
+        end: new FormControl<Date | null>(parseFrenchDate(this.value.split(" - ")[1])),
+      });
+    }
   }
 
   on_cancel() {

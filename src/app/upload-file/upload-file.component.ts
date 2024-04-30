@@ -1,11 +1,11 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {showMessage} from "../../tools";
-import {MAX_FILE_SIZE} from "../../definitions";
 import {NgIf, NgStyle} from "@angular/common";
 import {MatIcon} from "@angular/material/icon";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {FileDragNDropDirective} from "../file-drag-ndrop.directive";
+import {environment} from "../../environments/environment";
 
 
 @Component({
@@ -13,7 +13,7 @@ import {FileDragNDropDirective} from "../file-drag-ndrop.directive";
   standalone:true,
   imports: [
     NgStyle, NgIf,
-    MatIcon, MatIconButton, MatButton, FileDragNDropDirective
+    MatIcon, MatIconButton, MatButton
   ],
   templateUrl: './upload-file.component.html',
   styleUrls: ['./upload-file.component.css']
@@ -29,11 +29,11 @@ export class UploadFileComponent implements OnInit, OnChanges {
   @Input() width: string = "fit-content";
   @Input() height: string = "fit-content";
   @Input() zone: boolean = false;
-  @Input("encode") encode = true;
+  // @Input("encode") encode = true;
   @Input() format = "binary";
   @Input() visual="";
   @Input() can_drop: boolean = true;
-  @Input("maxsize") maxsize: number = MAX_FILE_SIZE;
+  @Input("maxsize") maxsize: number = environment.max_file_size;
   @Input("show_cancel") show_cancel: boolean = false;
   @Output("uploaded") onupload: EventEmitter<any> = new EventEmitter();
   @Output("canceled") oncancel: EventEmitter<any> = new EventEmitter();
@@ -90,7 +90,7 @@ export class UploadFileComponent implements OnInit, OnChanges {
             this.refresh();
           }
           this.message = "";
-          if(!this.encode)content=atob(content);
+          // if(!this.encode)content=atob(content);
           if(this.format=="text"){
             this.onupload.emit({
               filename:file.name,

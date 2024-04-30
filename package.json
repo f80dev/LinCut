@@ -25,12 +25,14 @@
     "@angular/router": "^17.2.0",
     "@angular/service-worker": "^17.2.0",
     "@google-pay/button-angular": "^3.0.8",
+
     "@multiversx/sdk-core": "^12.19.0",
     "@multiversx/sdk-extension-provider": "^3.0.0",
     "@multiversx/sdk-network-providers": "^1.4.0",
     "@multiversx/sdk-native-auth-client": "1.0.7",
     "@multiversx/sdk-wallet-connect-provider": "^4.1.0",
     "@multiversx/sdk-web-wallet-provider": "^3.2.1",
+
     "@types/chrome": "^0.0.260",
     "jsqr": "1.4.0",
     "ng-gallery": "^8.0.3",
