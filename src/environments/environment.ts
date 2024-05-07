@@ -8,9 +8,9 @@ export const environment = {
   appli:"linKut",
   appname:"linKut",
 
-  shorter_service:"https://t.f80.fr:444",
-  transfer_page:"https://x.f80.fr",
-  //shorter_service:"https://api.f80.fr:99",
+  //shorter_service:"https://t.f80.fr:444",
+  transfer_page:"http://127.0.0.1:8080",
+  shorter_service:"http://localhost:444",
   //shorter_service:"https://x.f80.fr:31178",
   server:"https://api.nfluent.io:4242",
   //gate_server:"https://gate.nfluent.io/transfer",

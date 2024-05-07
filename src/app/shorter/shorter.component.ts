@@ -170,7 +170,7 @@ export class ShorterComponent implements OnInit,OnDestroy {
     values["service"]=this.service_selected.id
 
     let body = {
-      url: this.service_selected.url.replace("{{gate_server}}",environment.gate_server),
+      url: this.service_selected.url.replace("{{gate_server}}",environment.gate_server).replace("{{url}}",this.url),
       values: values
     }
     $$("objet pour raccourcir et filtrer url="+this.url,body)

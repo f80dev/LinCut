@@ -16,7 +16,7 @@ export const environment = {
   website:"https://f80.fr",
   faqs:"https://linkut.f80.fr/assets/faqs.yaml",
   company:"f80",
-  version:0.16,
+  version:0.18,
   connexion:{
     xAlias:false,
     address: true,

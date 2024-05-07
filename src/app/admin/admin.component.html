@@ -8,11 +8,13 @@
 
   <br>
   <br>
-  <app-dbtable [source]="links"
+  <app-dbtable [source]="links" [showClear]="true"
                [dictionnary]="{cid:'identifiant',dtCreate:'Date de création',duration:'Durée de validité'}"
                (open)="open_cel($event)"
                title="Liens enregistrés"></app-dbtable>
+  <br><br>
 
+  <button mat-raised-button (click)="raz()">Raz</button>
 </div>
 
 
