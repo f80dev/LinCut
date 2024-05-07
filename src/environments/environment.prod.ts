@@ -12,6 +12,7 @@ export const environment = {
   gate_server:"https://gate.nfluent.io/transfer",
   merchant:{},
   website:"https://f80.fr",
+  transfer_page:"https://x.f80.fr",
   faqs:"https://linkut.f80.fr/assets/faqs.yaml",
   company:"f80",
   version:0.16,

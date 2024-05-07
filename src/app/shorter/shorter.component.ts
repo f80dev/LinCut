@@ -133,7 +133,6 @@ export class ShorterComponent implements OnInit,OnDestroy {
   //_______________________________________________________________________________________________________________________
   async short()  {
     //Effectue la réduction
-    debugger
     if(this.url){
       if (!this.url.startsWith("http")) this.url = "https://" + this.url
       this.save_values()
@@ -179,7 +178,7 @@ export class ShorterComponent implements OnInit,OnDestroy {
 
     this.api.post(environment.shorter_service + "/api/add/", body, {responseType: "json"}).subscribe({
       next: (r: any) => {
-        this.short_url = environment.shorter_service + "/" + r.cid
+        this.short_url = environment.transfer_page + "?" + r.cid
         this.qrcode=environment.server+"/api/qrcode/?code="+encodeURIComponent(this.short_url)
         this.code="<script>\n" +
           "if(!document.referrer.startsWith('"+environment.gate_server+"'))\nlocation.href='"+this.short_url+
