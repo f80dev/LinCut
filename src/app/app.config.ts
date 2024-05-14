@@ -14,13 +14,14 @@ import {
   SocialLoginModule
 } from "@abacritt/angularx-social-login";
 import {GOOGLE_CLIENT_ID} from "../definitions";
+import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 
 const config: SocketIoConfig = { url: environment.server, options: {} };
 
 
 export const appConfig: ApplicationConfig = {
   providers: [
-
+    {provide: MAT_DIALOG_DATA, useValue: {hasBackdrop: false}},
     provideHttpClient(withFetch()),
     provideRouter(routes),
     provideAnimationsAsync(),

@@ -14,10 +14,12 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
-import {$$, getParams, showError, showMessage} from "../../tools";
+import {$$, getParams, setParams, showError, showMessage} from "../../tools";
 import {load_values, save_value} from "../linkut";
 import {AboutComponent} from "../about/about.component";
 import local = chrome.storage.local;
+import {_prompt} from "../prompt/prompt.component";
+import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({
@@ -150,13 +152,10 @@ export class ShorterComponent implements OnInit,OnDestroy {
         return;
       }
     }
+
     if(this.service_selected.params.hasOwnProperty("network")){
       //Si le réseau est requis pour le service on l'intialise dans values
       values.network = values.network || "elrond-devnet"
-    }
-
-    if(this.service_selected.params.hasOwnProperty("target")){
-      values.target=values.target.replace("{{url}}",this.url)
     }
 
     if(values.hasOwnProperty("background")){
@@ -169,8 +168,14 @@ export class ShorterComponent implements OnInit,OnDestroy {
     }
     values["service"]=this.service_selected.id
 
+    if(this.service_selected.params.hasOwnProperty("gate")){
+      values["target"]=this.url
+      values["bank"]={address:values["address"]}
+      this.url=this.service_selected.params["gate"].replace("{{gate_server}}",environment.gate_server)+"?"+setParams(values)     //On ajoute le gate_server en intermédiaire
+    }
+
     let body = {
-      url: this.service_selected.url.replace("{{gate_server}}",environment.gate_server),
+      url: this.url,
       values: values
     }
     $$("objet pour raccourcir et filtrer url="+this.url,body)

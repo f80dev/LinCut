@@ -26,7 +26,7 @@
                  (valueChange)="address=$event;">
       </app-input>
 
-      <div style="display:inline-block;width: 91%;" *ngIf="!address || address==''">
+      <div style="display:inline-block;width: 91%;" *ngIf="(!address || address=='') && network!.value">
         <app-authent [network]="network.value"
                      size="120px"
                      [walletconnect_open]="false"
@@ -46,7 +46,6 @@
 
       <div style="width: 350px;height: 250px;display:inline-block;overflow:hidden;" *ngIf="!token || token==''">
         <app-token-selector label_selected="Votre monnaie préférée"
-
                             (valueChange)="token=$event.id"
                             [network]="network.value">
         </app-token-selector>
@@ -90,5 +89,7 @@
   <button mat-raised-button (click)="go_back()">
     Retour
   </button>
+
+
 
 </div>

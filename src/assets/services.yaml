@@ -13,9 +13,8 @@ services:
 
   - service: "Facturer en crypto"
     id: token_gate
-    url: "{{gate_server}}"
     params:
-      target: "{{url}}"
+      gate: "{{gate_server}}"
       messages:
         intro: "Pour continuez, veuillez régler {{quantity}} {{token}}"
 
@@ -33,9 +32,8 @@ services:
 
   - service: "Accès limité aux détenteur de NFT"
     id: nft_gate
-    url: "{{gate_server}}"
     params:
-      target: "{{url}}"
+      gate: "{{gate_server}}"
       collection: "?"
       token: egld
       messages:
@@ -54,16 +52,14 @@ services:
 
   - service: Redirection instantanée
     id: redirect
-    url: "{{url}}"
-    description: Redirection simple sans filtre
+    description: "Redirection simple sans filtre"
 
 
 
   - service: Afficher une landing page
     id: landing_page
-    url: "{{gate_server}}"
     params:
-      target: "{{url}}"
+      gate: "{{gate_server}}"
       messages:
         intro: "Vous allez être redirigé dans quelques secondes"
       style: "background-color:grey"
@@ -76,9 +72,8 @@ services:
 
   - service: Authentification par wallet
     id: authent
-    url: "{{gate_server}}"
     params:
-      target: "{{url}}"
+      gate: "{{gate_server}}"
       network: elrond-devnet
       style: "background-color:grey"
       connexion:
@@ -92,9 +87,8 @@ services:
 
   - service: Preuve d'humanitee
     id: poh
-    url: "{{gate_server}}"
     params:
-      target: "{{url}}"
+      gate: "{{gate_server}}"
       style: "background-color:grey"
       message: Pour continuez, veuillez cliquer
     description: Vérifie que l'internaute n'est pas un robot

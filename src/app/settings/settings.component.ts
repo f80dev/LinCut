@@ -18,6 +18,7 @@ import {NetworkService} from "../network.service";
 import {MatTab, MatTabGroup} from "@angular/material/tabs";
 import {get_images_from_banks} from "../../tools";
 import {MatDialog} from "@angular/material/dialog";
+import {_prompt} from "../prompt/prompt.component";
 
 
 @Component({
@@ -108,7 +109,6 @@ export class SettingsComponent implements OnInit {
     this.address=evt.address
   }
 
-
   raz(){
     this.address=""
     this.collection=""
@@ -136,8 +136,9 @@ export class SettingsComponent implements OnInit {
 
 
   async call_picture(prop:any) {
-    let images=await get_images_from_banks(this,this.api,"",false,1)
+    let images=await get_images_from_banks(this,_prompt,this.api,"",false,1)
     if(images.length>0)this.background=images[0].image
   }
+
 
 }
