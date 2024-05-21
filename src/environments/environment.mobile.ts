@@ -8,7 +8,6 @@ export const environment = {
   appli:"linKut",
   appname:"linKut",
   server:"https://api.f80.fr:4242",
-  //shorter_service:"https://x.f80.fr:31178",
   shorter_service:"https://femis.f80.fr:444",
   transfer_page:"https://x.f80.fr",
   gate_server:"https://gate.nfluent.io/transfer",
