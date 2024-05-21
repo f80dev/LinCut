@@ -1,0 +1,27 @@
+{
+  "name": "LinKut",
+  "version": "0.1.0",
+  "description": "Filtrage des urls",
+  "manifest_version": 3,
+  "author": "hhoareau@gmail.com",
+  "action": {
+    "default_popup": "index.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "64": "icon_@0.25x.png",
+    "128": "icon_@0.5x.png",
+    "256": "icon_mdpi.png"
+  },
+  "permissions": [
+    "activeTab","storage","contextMenus",
+    "tabs"
+  ],
+  "host_permissions": [
+    "http://localhost:5000/*",
+    "https://t.f80.fr/*"
+  ]
+}

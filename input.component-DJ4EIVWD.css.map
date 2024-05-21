@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/input/input.component.scss"],
+  "sourcesContent": ["mat-form-field {\r\n  margin-top: 0;\r\n  margin-bottom: 0;\r\n  margin-left: 5px;\r\n  padding: 0;\r\n}\r\n\r\nbutton {\r\n  margin: 5px;\r\n}\r\n\r\n\r\nmat-form-field:not(.mat-focused) .mat-hint {\r\n  display: none;\r\n}\r\n\r\n\r\n\r\n.input-elements {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-content: center;\r\n  justify-content: stretch;\r\n}\r\n\r\n.help-input {\r\n  opacity: 0.8;\r\n  font-size: x-small;\r\n  line-height: 80%;\r\n  margin-top: -5px;\r\n}\r\n\r\n::-webkit-scrollbar {\r\n  width: 10px;\r\n}\r\n::-webkit-scrollbar-track {\r\n  background: transparent;\r\n}\r\n::-webkit-scrollbar-thumb {\r\n  background: transparent;\r\n}\r\n\r\n.matStartDate {\r\n  border-color: #0A246A;\r\n}\r\n"],
+  "mappings": ";AAAA;AACE,cAAA;AACA,iBAAA;AACA,eAAA;AACA,WAAA;;AAGF;AACE,UAAA;;AAIF,cAAA,KAAA,CAAA,aAAA,CAAA;AACE,WAAA;;AAKF,CAAA;AACE,WAAA;AACA,kBAAA;AACA,iBAAA;AACA,mBAAA;;AAGF,CAAA;AACE,WAAA;AACA,aAAA;AACA,eAAA;AACA,cAAA;;AAGF;AACE,SAAA;;AAEF;AACE,cAAA;;AAEF;AACE,cAAA;;AAGF,CAAA;AACE,gBAAA;;",
+  "names": []
+}

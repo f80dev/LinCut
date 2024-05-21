@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/token-selector/token-selector.component.css"],
+  "sourcesContent": ["td {\r\n    vertical-align: middle;\r\n}\r\n\r\nmat-form-field {\r\n    height: 70px;\r\n    width:70%;\r\n    max-width:300px;\r\n}\r\n\r\n.mat-form-field-appearance-fill .mat-form-field-flex{\r\n    background: none !important;\r\n}"],
+  "mappings": ";AAAA;AACI,kBAAgB;AACpB;AAEA;AACI,UAAQ;AACR,SAAM;AACN,aAAU;AACd;AAEA,CAAC,+BAA+B,CAAC;AAC7B,cAAY;AAChB;",
+  "names": []
+}

@@ -1,0 +1,98 @@
+
+title: Services utilisables par linKut
+desc:
+  présnte quelques services de base utilisable avec l'application de redirection
+
+#le champs data est passé au service de redirection avec un éventuel traitement préalable
+#url désigne l'url à raccourcir
+# dans certains cas l'url est le gate server pour procéder au filtrage (péage)
+
+
+
+services:
+
+  - service: "Facturer en crypto"
+    id: token_gate
+    params:
+      gate: "{{gate_server}}"
+      messages:
+        intro: "Pour continuez, veuillez régler {{quantity}} {{token}}"
+
+      token: egld
+      connexion:
+        wallet_connect: True
+        extension_wallet: True
+        direct_connect: True
+      network: elrond-devnet
+      style: "background-color:grey"
+      quantity: 0.01
+      address: "?"
+    description: L'utilisateur doit payer {{quantity}} {{token}} sur le {{network}} pour accéder au lien {{url}}
+
+
+  - service: "Accès limité aux détenteur de NFT"
+    id: nft_gate
+    params:
+      gate: "{{gate_server}}"
+      collection: "?"
+      token: egld
+      messages:
+        intro: "Pour vous connecter vous devez posséder au moins un NFT de la collection {{collection}}"
+
+      connexion:
+        wallet_connect: True
+        extension_wallet: True
+        direct_connect: True
+      network: elrond-devnet
+      style: "background-color:grey"
+    description: "
+      Seul les détenteurs d'un NFT de la collection {{collection}}
+      sont autorisé à accéder au lien
+    "
+
+  - service: Redirection instantanée
+    id: redirect
+    description: "Redirection simple sans filtre"
+
+
+
+  - service: Afficher une landing page
+    id: landing_page
+    params:
+      gate: "{{gate_server}}"
+      messages:
+        intro: "Vous allez être redirigé dans quelques secondes"
+      style: "background-color:grey"
+      quantity: 1
+    description: "
+      Permet d'afficher {{background}} en fond d'écran
+      pendant {{quantity}} secondes avant la redirection
+    "
+
+
+  - service: Authentification par wallet
+    id: authent
+    params:
+      gate: "{{gate_server}}"
+      network: elrond-devnet
+      style: "background-color:grey"
+      connexion:
+        wallet_connect: True
+        extension_wallet: True
+      message: Pour continuez, veuillez connecter votre wallet
+    description: Identification du wallet MvX et transmission de l'adresse à {{url}}
+
+
+
+
+  - service: Preuve d'humanitee
+    id: poh
+    params:
+      gate: "{{gate_server}}"
+      style: "background-color:grey"
+      message: Pour continuez, veuillez cliquer
+    description: Vérifie que l'internaute n'est pas un robot
+
+
+
+
