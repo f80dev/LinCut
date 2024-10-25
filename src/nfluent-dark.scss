@@ -19,7 +19,7 @@ body,html {
 @include mat.all-component-themes($nfluent-dark-theme);
 
 .color-primary {
-  color: mat.get-color-from-palette($nfluent-indigo-palette, 300);
+  color: mat.m2-get-color-from-palette($nfluent-indigo-palette, 300);
 }
 
 //Réapplication des nouvelles couleurs
@@ -36,11 +36,11 @@ mat-card-title {
 }
 
 .background-component {
-  background-color: mat.get-color-from-palette(mat.$grey-palette, 900) !important;
+  background-color: mat.m2-get-color-from-palette(mat.$grey-palette, 900) !important;
 }
 
 .background-element {
-  background-color: mat.get-color-from-palette(mat.$grey-palette, 800) !important;
+  background-color: mat.m2-get-color-from-palette(mat.$grey-palette, 800) !important;
 }
 
 

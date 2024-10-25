@@ -16,10 +16,6 @@ import {InputComponent} from "../input/input.component";
 import {MatExpansionPanel, MatExpansionPanelHeader} from "@angular/material/expansion";
 import {$$, getParams, setParams, showError, showMessage} from "../../tools";
 import {load_values, save_value} from "../linkut";
-import {AboutComponent} from "../about/about.component";
-import local = chrome.storage.local;
-import {_prompt} from "../prompt/prompt.component";
-import {MatDialog} from "@angular/material/dialog";
 
 
 @Component({

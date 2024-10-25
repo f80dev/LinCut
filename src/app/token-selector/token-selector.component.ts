@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {NetworkService} from "../network.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {$$, showMessage} from "../../tools";
+import {$$, showError, showMessage} from "../../tools";
 import {_prompt} from "../prompt/prompt.component";
 import {MatDialog} from "@angular/material/dialog";
 import {HourglassComponent, wait_message} from "../hourglass/hourglass.component";
@@ -11,7 +11,8 @@ import {MatIcon} from "@angular/material/icon";
 import {InputComponent} from "../input/input.component";
 import {NgIf} from "@angular/common";
 import {LinkComponent} from "../link/link.component";
-import {Observable} from "rxjs"
+import {mvx_api} from "mvx";
+
 
 const BACKUP_IMG="https://tokenforge.nfluent.io/assets/icons/egld-token-logo.webp"
 
@@ -43,8 +44,11 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
   @Input() label_selected:string="Monnaie sélectionnée"
   @Input() refresh_delay:number=0;
   @Input() show_createtoken_button=true;
+  @Input() show_balance=true;
+
   @Input("value") sel_token:any={id:""}
   @Input() with_detail=false
+
   @Output() valueChange: EventEmitter<any> = new EventEmitter();
   @Output() endSearch: EventEmitter<any> = new EventEmitter();
   @Output() unselect: EventEmitter<any> = new EventEmitter();
@@ -57,7 +61,9 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
   @Input("filter") filter_by_name="";
   owner_filter: string="";
   handle: any=0
-  sel_filter="all";
+
+  options=[{label:'Voir toutes les monnaies',value:'all'},{label:"Les monnaies du propriétaires",value:'owner'}];
+  sel_filter=this.options[0]
 
   constructor(
       public api:NetworkService,
@@ -66,9 +72,11 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
   ) {
   }
 
+
   ngOnChanges(changes: SimpleChanges): void {
     if(changes["network"] || changes["filter"] || changes["owner"]){
       if(this.label_for_owner_filter=="")this.label_for_owner_filter="Voir les monnaies de "+this.owner.replace(this.owner.substring(7,53)," ... ")
+      this.options[1].label=this.label_for_owner_filter
       //if(!changes["owner"] || changes["owner"].currentValue=="")clearInterval(this.handle)
       setTimeout(()=>{this.refresh();},500)
       //this.refresh()
@@ -88,35 +96,44 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
         name:this.sel_token
       }
     }
-
   }
 
   ngOnInit() {
     if(this.owner!=''){
-      this.owner_filter=this.owner;
-      this.sel_filter="owner"
+      this.owner_filter=this.owner
+      this.sel_filter=this.options[1]
     }else{
-      this.sel_filter="all"
+      this.sel_filter=this.options[0]
       this.owner_filter=""
     }
     this.get_tokens()
   }
 
-  get_tokens(owner="",limit=6000) : Promise<any[]>{
-    return new Promise((resolve, reject) => {
-      if (this.all_tokens.length > 0 && owner=="") {
-        resolve(this.all_tokens);
-      } else {
-        this.api.find_tokens(this.network, owner, "", true, limit).subscribe({
-          next: (tokens: any[]) => {
-            if(owner=="")this.all_tokens = tokens;
-            resolve(tokens)
-          },
-          error:()=>{reject()}
-        });
-      }
-    })
+
+
+  async get_tokens(owner="",limit=6000) : Promise<any[]>{
+    if(owner.length>0){
+      return mvx_api("accounts/"+owner+"/tokens","type=FungibleESDT",this.api)
+    }else{
+      //voir
+      return mvx_api("tokens","order=desc&sort=marketCap&size=500&type=FungibleESDT",this.api)
+    }
+
+    // return new Promise((resolve, reject) => {
+    //   if (this.all_tokens.length > 0 && owner=="") {
+    //     resolve(this.all_tokens);
+    //   } else {
+    //     this.api.find_tokens(this.network, owner, "", true, limit).subscribe({
+    //       next: (tokens: any[]) => {
+    //         if(owner=="")this.all_tokens = tokens;
+    //         resolve(tokens)
+    //       },
+    //       error:()=>{reject()}
+    //     });
+    //   }
+    // })
   }
+
 
   async refresh()  {
     if (this.network == "") return
@@ -125,21 +142,33 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
       this.message = "Recherche des monnaies " + (this.owner_filter ? " de " + this.owner_filter : "") + " " + (this.filter_by_name ? " dont le nom contient \"" + this.filter_by_name + "\"" : "")
       if (this.network.indexOf("devnet") > -1) this.message = this.message + " (réseau test)"
     }
+
     wait_message(this,"Recherche des monnaies",false,10000)
-    let tokens = await this.get_tokens(this.owner_filter)
+    let tokens=[]
+    try{
+      tokens = await this.get_tokens(this.owner_filter)
+    }catch (e){
+      showError(this,"Problème de visualisation des tokens")
+    }
+
     wait_message(this)
+
     this.message = ""
     this.tokens=[]
     for (let t of tokens) {
       t["label"] = t["name"]
-      if (Number(t["balance"]) > 0) t["label"] = t["label"] + " (" + Math.round(t["balance"] * 100) / 100 + ")"
+      t["image"]="https://tokenforge.nfluent.io/assets/icons/egld-token-logo.webp"
+
+      let tmp=Math.round(100*t["balance"] / (10**t["decimals"]))/100
+      let solde=tmp<100000 ? tmp.toString() : (tmp/1000)+"K"
+      if (Number(t["balance"]) > 0) t["label"] = t["label"] + (this.show_balance ? " (" + solde + ")" : "")
       if (this.filter_by_name == "" || (t["id"] + t["name"] + t["label"]).toLowerCase().indexOf(this.filter_by_name.toLowerCase()) > -1){
         this.tokens.push(t)
       }
     }
     this.endSearch.emit(this.tokens);
-
   }
+
 
   update_sel($event: any) {
     this.sel_token=$event
@@ -149,6 +178,7 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
     this.valueChange.emit(this.sel_token)
   }
 
+
   reset() {
     this.tokens=[]
     this.sel_token={id:""}
@@ -157,26 +187,24 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
   }
 
 
-  // update_filter() {
-  //   clearTimeout(this.handler)
-  //   this.handler=setTimeout(()=>{this.refresh()},1000)
-  // }
-
 
   switch_token(evt:any) {
-    if(evt=="owner"){
+    if(evt.value=="owner"){
       this.owner_filter=this.owner;
     }else{
       this.owner_filter=""
     }
+    this.sel_filter=evt
     this.refresh();
   }
+
 
   open_create_esdt() {
     showMessage(this,"Depuis le wallet web, choisir la rubrique Create Token puis reporter l'identifiant",6000,()=>{
       open("https://wallet.multiversx.com/issue-token","wallet")
     },"Ouvrir le wallet")
   }
+
 
   async open_search_token() {
     let rep:string=await _prompt(this,"Rechercher sur le nom",this.filter_by_name,"","text","Rechercher","Annuler",false)
@@ -187,6 +215,8 @@ export class TokenSelectorComponent implements OnChanges,OnInit {
     }
     this.refresh()
   }
+
+
 
   reset_filter() {
     this.filter_by_name=""

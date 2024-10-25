@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angula
 import {Observable, Subject} from "rxjs";
 import jsQR from "jsqr";
 import {WebcamImage, WebcamModule} from "ngx-webcam";
-import {$$} from "../../tools";
 import {NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
 

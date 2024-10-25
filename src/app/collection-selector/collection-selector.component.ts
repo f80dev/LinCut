@@ -47,7 +47,7 @@ export class CollectionSelectorComponent implements OnChanges,OnDestroy {
   @Input() min_supply = 0
   @Input() min_balance = 0
   @Input() animation = "crossfade"
-  @Input("query") query_collection = "";
+  @Input("query") query_collection = ""; //Interroge une collection
   @Input() title = "Collections disponibles";
   @Input() showSearchWithoutOwner: boolean = false;
   @Input() w_image_selected:string=""

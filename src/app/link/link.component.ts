@@ -39,7 +39,7 @@ export class LinkComponent implements OnInit {
   short_link() {
       let body = {url: this.content}
       this.api.create_short_link(body).subscribe({
-        next: (result) => {
+        next: (result:any) => {
           this.content = environment.transfer_page + "?" + result.cid
         },
         error:(err:any)=>{

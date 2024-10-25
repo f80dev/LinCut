@@ -10,7 +10,7 @@ import {Merchant, PaymentComponent} from "../payment/payment.component";
 import {$$, Bank, showMessage} from "../../tools";
 import {UserService} from "../user.service";
 import {NetworkService} from "../network.service";
-import {Connexion} from "../../operation";
+import {Connexion, get_default_connexion} from "../../operation";
 import {AuthentComponent} from "../authent/authent.component";
 import {NgFor, NgIf} from "@angular/common";
 import {MatButton} from "@angular/material/button";
@@ -77,22 +77,7 @@ export class AskForPaymentComponent implements OnInit {
 
     buy_method: "fiat" | "crypto" | "" = "";
     nb_payment=0;
-    connexion: Connexion = {
-        xAlias: false,
-        private_key: false,
-        address: false,
-        direct_connect: true,
-        email: false,
-        extension_wallet: true,
-        google: false,
-        keystore: false,
-        nfluent_wallet_connect: false,
-        on_device: false,
-        wallet_connect: true,
-        web_wallet: true,
-        webcam: false
-    };
-
+    connexion: Connexion = get_default_connexion()
 
     constructor(public dialogRef: MatDialogRef<AskForPaymentComponent>,
                 public user:UserService,

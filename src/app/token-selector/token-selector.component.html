@@ -20,22 +20,17 @@
 
 
 
-        <mat-form-field  *ngIf="owner!='' && canChangeFilter && message==''" >
-<!--            <mat-label>{{label_change_filter}}</mat-label>-->
-            <mat-select style="max-width: 400px;" [(value)]="sel_filter" (valueChange)="switch_token($event)">
-                <mat-option value="all">Voir toutes les monnaies</mat-option>
-                <mat-option value="owner">{{label_for_owner_filter}}
-<!--                    <app-link [content]="owner"></app-link>-->
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+        <app-input *ngIf="owner!='' && canChangeFilter && message==''"
+                   style="display: inline-block;max-width:250px;"
+                    [options]="options"
+                   value_type="list" [value]="sel_filter"
+                   (valueChange)="switch_token($event)">
+        </app-input>
 
 
-        <table style="text-align:left;font-size: x-large;opacity: 0.9;vertical-align: center;"
-               *ngIf="message==''">
+        <table style="text-align:left;font-size: x-large;opacity: 0.9;vertical-align: center;" *ngIf="message==''">
             <tr>
             <td>
-
                 <mat-icon
                         *ngIf="tokens && tokens.length>5"
                         (click)="open_search_token()"
@@ -77,7 +72,8 @@
 
     <app-input [options]="tokens" *ngIf="tokens.length>0"
                [multiselect]="false"
-               value_type="listimages" height="250px" [size_image]="size"
+               value_type="listimages" height="250px"
+               [size_image]="size"
                (valueChange)="update_sel($event)">
     </app-input>
 
@@ -90,8 +86,7 @@
 
 </div>
 
-<div *ngIf="sel_token?.id?.length>0"
-     class="mat-elevation-z2"
+<div  class="mat-elevation-z2" *ngIf="sel_token.identifier"
      style="padding: 8px;text-align: center;width:100%;" >
     <!--    Entete-->
 
@@ -103,13 +98,11 @@
     <br>
 
     <div class="mat-body-2" style="width: 100%;text-align: center;margin-top: 10px;">
-        <img [src]="sel_token.image"
-             style="margin-right: 10px;"
+        <img [src]="sel_token.image" style="margin-right: 10px;"
              [style.width]="size_selected"
              [style.height]="size_selected" >
         <br><br>
-        <span [title]="sel_token.id">{{sel_token.name}}</span>
-        <span *ngIf="owner_filter!='' && sel_token.balance>0">({{sel_token.balance}})</span>
+        <span [title]="sel_token.id">{{sel_token.label}}</span>
     </div>
 </div>
 

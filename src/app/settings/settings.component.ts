@@ -49,7 +49,7 @@ export class SettingsComponent implements OnInit {
   ]
   network:any;
   unity="";
-  background="gray"
+  background="https://unblast.com/wp-content/uploads/2022/01/Paper-Texture-4.jpg"
 
   constructor(public chromeExt:ChromeExtensionService,
               public api:NetworkService,
